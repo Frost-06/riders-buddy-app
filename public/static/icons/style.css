@@ -1,0 +1,230 @@
+@font-face {
+  font-family: "icomoon";
+  src: url("fonts/icomoon.eot?ld7s65");
+  src: url("fonts/icomoon.eot?ld7s65#iefix") format("embedded-opentype"),
+    url("fonts/icomoon.ttf?ld7s65") format("truetype"),
+    url("fonts/icomoon.woff?ld7s65") format("woff"),
+    url("fonts/icomoon.svg?ld7s65#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon" !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-voucher-alt:before {
+  content: "\e932";
+}
+.icon-voucher:before {
+  content: "\e933";
+  color: #1aa3e9;
+}
+.icon-user-info-alt:before {
+  content: "\e934";
+}
+.icon-user-info:before {
+  content: "\e935";
+  color: #1aa3e9;
+}
+.icon-coupon:before {
+  content: "\e936";
+  color: #1aa3e9;
+}
+.icon-location:before {
+  content: "\e937";
+  color: #1aa3e9;
+}
+.icon-location-alt:before {
+  content: "\e937";
+}
+.icon-drawer-alt:before {
+  content: "\e938";
+}
+.icon-grid-alt:before {
+  content: "\e939";
+}
+.icon-filter-alt:before {
+  content: "\e93a";
+}
+.icon-pencil-alt:before {
+  content: "\e93b";
+}
+.icon-info-alt:before {
+  content: "\e93c";
+}
+.icon-clock-2 .path1:before {
+  content: "\e93d";
+  color: rgb(26, 163, 233);
+}
+.icon-clock-2 .path2:before {
+  content: "\e93e";
+  margin-left: -1em;
+  color: rgb(216, 48, 74);
+}
+.icon-clock-2 .path3:before {
+  content: "\e93f";
+  margin-left: -1em;
+  color: rgb(216, 48, 74);
+}
+.icon-full-star:before {
+  content: "\e940";
+  color: #ffc833;
+}
+.icon-half-star .path1:before {
+  content: "\e942";
+  color: rgb(255, 200, 51);
+}
+.icon-half-star .path2:before {
+  content: "\e943";
+  margin-left: -1.0419921875em;
+  color: rgb(255, 214, 113);
+}
+.icon-coke-burger:before {
+  content: "\e900";
+  color: #1aa3e9;
+}
+.icon-gift:before {
+  content: "\e901";
+  color: #1aa3e9;
+}
+.icon-laundry .path1:before {
+  content: "\e902";
+  color: rgb(26, 163, 233);
+}
+.icon-laundry .path2:before {
+  content: "\e903";
+  margin-left: -0.849609375em;
+  color: rgb(26, 163, 233);
+}
+.icon-laundry .path3:before {
+  content: "\e904";
+  margin-left: -0.849609375em;
+  color: rgb(26, 163, 233);
+}
+.icon-laundry .path4:before {
+  content: "\e905";
+  margin-left: -0.849609375em;
+  color: rgb(255, 255, 255);
+}
+.icon-laundry .path5:before {
+  content: "\e906";
+  margin-left: -0.849609375em;
+  color: rgb(255, 255, 255);
+}
+.icon-laundry .path6:before {
+  content: "\e907";
+  margin-left: -0.849609375em;
+  color: rgb(255, 255, 255);
+}
+.icon-basket:before {
+  content: "\e908";
+  color: #1aa3e9;
+}
+.icon-task:before {
+  content: "\e909";
+  color: #1aa3e9;
+}
+.icon-home-alt:before {
+  content: "\e90a";
+  color: #b9b8b8;
+}
+.icon-user-alt:before {
+  content: "\e90b";
+  color: #b9b8b8;
+}
+.icon-chat-alt:before {
+  content: "\e90c";
+  color: #b9b8b8;
+}
+.icon-task-alt:before {
+  content: "\e90d";
+  color: #b9b8b8;
+}
+.icon-bell-alt:before {
+  content: "\e90e";
+  color: #b9b8b8;
+}
+.icon-bell:before {
+  content: "\e90e";
+  color: #1aa3e9;
+}
+.icon-home:before {
+  content: "\e90f";
+  color: #1aa3e9;
+}
+.icon-user:before {
+  content: "\e910";
+  color: #1aa3e9;
+}
+.icon-chat:before {
+  content: "\e911";
+  color: #1aa3e9;
+}
+.icon-task-2:before {
+  content: "\e912";
+  color: #1aa3e9;
+}
+.icon-delete:before {
+  content: "\e917";
+  color: #1aa3e9;
+}
+.icon-cart-alt:before {
+  content: "\e918";
+}
+.icon-cart:before {
+  content: "\e919";
+  color: #1aa3e9;
+}
+.icon-card-alt:before {
+  content: "\e91a";
+}
+.icon-card:before {
+  content: "\e91b";
+  color: #1aa3e9;
+}
+.icon-calendar-alt:before {
+  content: "\e91c";
+}
+.icon-calendar:before {
+  content: "\e91d";
+  color: #1aa3e9;
+}
+.icon-headset-alt:before {
+  content: "\e91e";
+}
+.icon-headset:before {
+  content: "\e91f";
+  color: #1aa3e9;
+}
+.icon-gear-alt:before {
+  content: "\e920";
+}
+.icon-gear:before {
+  content: "\e921";
+  color: #1aa3e9;
+}
+.icon-logout-alt:before {
+  content: "\e922";
+}
+.icon-logout:before {
+  content: "\e923";
+  color: #1aa3e9;
+}
+.icon-clock:before {
+  content: "\e924";
+  color: #1aa3e9;
+}
