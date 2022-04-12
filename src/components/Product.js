@@ -94,10 +94,10 @@ export function MerchantCard(props) {
   const { merchant } = props;
   const { merch_banner, merch_name } = merchant;
   return merchant ? (
-    <Paper style={{ marginBottom: 24, position: "relative" }}>
+    <Box style={{ marginBottom: 24, position: "relative" }}>
       {props.header}
-      <Box p={2}>
-        <Box className={"product small"}>
+      <Box>
+        <Box className={"product-archive"}>
           <img
             src={DOMAIN + "/storage/merchants/" + merch_banner}
             width="100%"
@@ -108,7 +108,17 @@ export function MerchantCard(props) {
             <Typography
               color="primary"
               variant="h5"
-              style={{ fontWeight: 700 }}
+              style={{
+                fontWeight: 700,
+                width: "100%",
+                textAlign: "left",
+                textJustify: "inter-word",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 1,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
             >
               {merch_name}
             </Typography>
@@ -117,7 +127,7 @@ export function MerchantCard(props) {
         </Box>
         {props.variant !== "small" && props.children}
       </Box>
-    </Paper>
+    </Box>
   ) : null;
 }
 
