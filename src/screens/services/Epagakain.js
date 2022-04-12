@@ -1,4 +1,13 @@
-import { Box, ButtonBase, Paper, Typography } from "@material-ui/core";
+import {
+  Icon,
+  Box,
+  Button,
+  ButtonBase,
+  Paper,
+  TextField,
+  Typography,
+  Container,
+} from "@material-ui/core";
 import React from "react";
 import { history } from "../../App";
 import AnimateOnTap from "../../components/AnimateOnTap";

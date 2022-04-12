@@ -11,8 +11,9 @@ import { useHistory } from "react-router-dom";
 import BottomNavContext from "../../context/BottomNavContext";
 import CartContext from "../../context/CartContext";
 import UserContext from "../../context/UserContext";
-import { slideBottom } from "../../misc/transitions";
+import { slideBottom, slideLeft } from "../../misc/transitions";
 import { bottomNavRoutes } from "../../Routes";
+
 function BottomNavigation(props) {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.down("md"));
@@ -71,7 +72,7 @@ function BottomNavigation(props) {
       initial="initial"
       exit="out"
       animate="in"
-      variants={slideBottom}
+      variants={slideLeft}
       className="bottom-navigation"
     >
       {isMd ? (

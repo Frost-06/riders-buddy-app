@@ -55,12 +55,10 @@ function ChatComponent(props) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [chatRef]);
-  const { bottomNavContext, setBottomNavContext } = useContext(
-    BottomNavContext
-  );
-  const { notificationContext, setNotificationContext } = useContext(
-    NotificationContext
-  );
+  const { bottomNavContext, setBottomNavContext } =
+    useContext(BottomNavContext);
+  const { notificationContext, setNotificationContext } =
+    useContext(NotificationContext);
   const sendMessage = useCallback(async () => {
     if (participants?.length) {
       let sender_id = userContext.user_id;
@@ -110,6 +108,12 @@ function ChatComponent(props) {
               onClick={() => setSelectingMap(true)}
             >
               Location
+            </ListItem>
+            <ListItem
+              component={ButtonBase}
+              onClick={() => setSelectingMap(true)}
+            >
+              Image
             </ListItem>
           </List>
         </React.Fragment>

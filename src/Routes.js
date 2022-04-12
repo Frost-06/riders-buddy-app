@@ -101,6 +101,7 @@ export const MerchantRoutes = [
       );
     },
   }),
+
   createRoute("/notifications", true, null, {
     render: (p) => withNavBottom(p, Notifications),
   }),
