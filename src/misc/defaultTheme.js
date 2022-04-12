@@ -52,10 +52,10 @@ export const overridesTheme = {
     },
     MuiTabs: {
       root: {
-        overflow: "auto!important",
+        overflow: "hidden !important",
       },
       scroller: {
-        overflow: "auto!important",
+        overflow: "hidden !important",
       },
     },
     MuiTab: {
