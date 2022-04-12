@@ -5,6 +5,10 @@ import {
   useTheme,
   useMediaQuery,
   AppBar,
+  IconButton,
+  Icon,
+  TextField,
+  Button,
 } from "@material-ui/core";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useMemo, useState } from "react";
@@ -22,6 +26,7 @@ import { slideLeft } from "../../misc/transitions";
 import Api from "../../utils/api";
 import fetchData from "../../utils/fetchData";
 import Services from "../services";
+import Cart from "../services/Cart";
 import Footer from "./Footer";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -95,14 +100,26 @@ function HomePage(props) {
           <Address />
         </Block> */}
         <br />
-
+        <Box className="main-search-input">
+          <TextField
+            id="search-val"
+            className="themed-input"
+            variant="outlined"
+            type="text"
+            fullWidth
+            placeholder="Search for product or services..."
+          />
+          <Button className="themed-button" size="large">
+            <Icon>search</Icon>
+          </Button>
+        </Box>
         <Box position="relative" style={{ padding: "0px 24px" }}>
           <AutoPlaySwipeableViews
             index={page - 1}
             resistance
             animateTransitions="true"
             onChangeIndex={(index) => setPage(index + 1)}
-            style={{ borderRadius: isMd ? "8px" : "24px" }}
+            style={{ borderRadius: isMd ? "8px" : "24px", marginTop: 16 }}
           >
             <Box display="flex" onClick={() => history.push("/merchant/2")}>
               <img
