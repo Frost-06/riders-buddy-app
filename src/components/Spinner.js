@@ -131,8 +131,8 @@ function ChatSpinner(props) {
 }
 function HomeSpinner(props) {
   return (
-    <Box height="100%" width="100%" maxWidth="810px">
-      <Skeleton width="100%" height={170} />
+    <Box height="100%" width="100%" maxWidth="1920px">
+      <Skeleton width={"100%"} height={96} />
       <br />
       <Box p={3} paddingTop={0}>
         <Skeleton width={120} height={30} />
