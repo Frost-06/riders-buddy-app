@@ -1,9 +1,12 @@
 import {
   AppBar,
+  Badge,
   Box,
   Button,
+  ButtonBase,
   Container,
   Divider,
+  Icon,
   IconButton,
   InputAdornment,
   Link,
@@ -12,6 +15,8 @@ import {
   ListItemIcon,
   ListItemText,
   SwipeableDrawer,
+  Tab,
+  Tabs,
   TextField,
   Toolbar,
   Typography,
@@ -31,8 +36,16 @@ import CartContext from "../../context/CartContext";
 import NotificationContext from "../../context/NotificationContext";
 import OrderContext from "../../context/OrderContext";
 import UserContext from "../../context/UserContext";
+
+import { WebCart } from "../../screens/services/Cart";
 import logout from "../../utils/logout";
 import Address from "../Address";
+import PropTypes from "prop-types";
+import AnimateOnTap from "../AnimateOnTap";
+import SwipeableViews from "react-swipeable-views";
+import Notifications, {
+  WebNotifications,
+} from "../../screens/home/Notifications";
 
 export default function SecondHeader(props) {
   const ucontext = useContext(UserContext);
@@ -46,6 +59,7 @@ export default function SecondHeader(props) {
   const { setCartContext, cartContext } = useContext(CartContext);
   const { user_fname, user_lname, user_email, user_avatar } =
     profile.userContext;
+
   const menu = useMemo(
     () => [
       {
@@ -99,6 +113,13 @@ export default function SecondHeader(props) {
     right: false,
   });
 
+  const [notifState, setNotifState] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
@@ -109,6 +130,18 @@ export default function SecondHeader(props) {
     }
 
     setState({ ...state, [anchor]: open });
+  };
+
+  const notifToggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setNotifState({ ...notifState, [anchor]: open });
   };
 
   const list = (anchor) => (
@@ -193,6 +226,116 @@ export default function SecondHeader(props) {
     </Box>
   );
 
+  const [tabValue, setTabValue] = useState(0);
+
+  const cartList = (anchor) => (
+    <Box
+      style={{
+        width: 464,
+      }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, true)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      {/* <WebNotifications /> */}
+      <Container
+        style={{
+          height: 96,
+          backgroundColor: "#1AA3E9",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <AnimateOnTap>
+          <ButtonBase onClick={toggleDrawer(anchor, false)}>
+            <Icon>
+              <img
+                src="/assets/close-x.svg"
+                alt="close"
+                style={{ height: 24 }}
+              />
+            </Icon>
+          </ButtonBase>
+        </AnimateOnTap>
+        <Typography
+          variant="h4"
+          style={{ margin: "auto", fontWeight: 700, color: "#fff" }}
+        >
+          Cart
+        </Typography>
+      </Container>
+      <Box
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-evenly",
+        }}
+      >
+        <Box style={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={tabValue}
+            fullWidth
+            onChange={(e, val) => setTabValue(val)}
+            sx={{
+              width: "100%",
+            }}
+          >
+            <Tab label={<AnimateOnTap>Products</AnimateOnTap>} />
+            <Tab label={<AnimateOnTap>Services</AnimateOnTap>} />
+          </Tabs>
+        </Box>
+      </Box>
+      <SwipeableViews
+        resistance
+        index={tabValue}
+        onChangeIndex={(index) => setTabValue(index)}
+      >
+        <Container>
+          <WebCart />
+        </Container>
+      </SwipeableViews>
+    </Box>
+  );
+
+  const notificationList = (anchor) => (
+    <Box
+      style={{
+        width: 464,
+      }}
+      role="presentation"
+      onClick={notifToggleDrawer(anchor, true)}
+      onKeyDown={notifToggleDrawer(anchor, false)}
+    >
+      <Container
+        style={{
+          height: 96,
+          backgroundColor: "#1AA3E9",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <AnimateOnTap>
+          <ButtonBase onClick={notifToggleDrawer(anchor, false)}>
+            <Icon>
+              <img
+                src="/assets/close-x.svg"
+                alt="close"
+                style={{ height: 24 }}
+              />
+            </Icon>
+          </ButtonBase>
+        </AnimateOnTap>
+        <Typography
+          variant="h4"
+          style={{ margin: "auto", fontWeight: 700, color: "#fff" }}
+        >
+          Notifications
+        </Typography>
+      </Container>
+      <WebNotifications />
+    </Box>
+  );
+
   return (
     <>
       <SwipeableDrawer
@@ -202,6 +345,24 @@ export default function SecondHeader(props) {
         onOpen={toggleDrawer("left", true)}
       >
         {list("left")}
+      </SwipeableDrawer>
+
+      <SwipeableDrawer
+        anchor={"right"}
+        open={state["right"]}
+        onClose={toggleDrawer("right", false)}
+        onOpen={toggleDrawer("right", true)}
+      >
+        {cartList("right")}
+      </SwipeableDrawer>
+
+      <SwipeableDrawer
+        anchor={"right"}
+        open={notifState["right"]}
+        onClose={notifToggleDrawer("right", false)}
+        onOpen={notifToggleDrawer("right", true)}
+      >
+        {notificationList("right")}
       </SwipeableDrawer>
       <motion.header
         style={{
@@ -293,19 +454,34 @@ export default function SecondHeader(props) {
                 ""
               ) : (
                 <>
-                  <a
-                    href="/notifications"
-                    style={{ marginRight: 40, width: "-25%" }}
+                  <Link
+                    onClick={notifToggleDrawer("right", true)}
+                    style={{
+                      marginRight: 40,
+                      width: "-25%",
+                      cursor: "pointer",
+                    }}
                   >
-                    <img
-                      src="/assets/notifications.svg"
-                      height="30"
-                      alt="notification-icon"
-                    />
-                  </a>
-                  <a href="/cart" style={{ marginRight: 24, width: "-25%" }}>
-                    <img src="/assets/cart.svg" height="35" alt="cart-icon" />
-                  </a>
+                    <Badge badgeContent={4} color="error">
+                      <img
+                        src="/assets/notifications.svg"
+                        height="35"
+                        alt="notification-icon"
+                      />
+                    </Badge>
+                  </Link>
+                  <Link
+                    style={{
+                      marginRight: 24,
+                      width: "-25%",
+                      cursor: "pointer",
+                    }}
+                    onClick={toggleDrawer("right", true)}
+                  >
+                    <Badge badgeContent={4} color="error">
+                      <img src="/assets/cart.svg" height="35" alt="cart-icon" />
+                    </Badge>
+                  </Link>
                 </>
               )}
             </Toolbar>

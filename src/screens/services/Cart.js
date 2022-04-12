@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Icon,
   IconButton,
@@ -12,10 +13,12 @@ import { motion } from "framer-motion";
 import { useSnackbar } from "notistack";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import CurrencyFormat from "react-currency-format";
+import { history } from "../../App";
 import EmptyListMessage from "../../components/EmptyListMessage";
 import { InputQuantity, Price, ProductCard } from "../../components/Product";
 import SavingButton from "../../components/SavingButton";
 import ScreenHeader from "../../components/ScreenHeader";
+import SecondHeader from "../../components/user-globals/SecondHeader";
 import BottomNavContext from "../../context/BottomNavContext";
 import CartContext from "../../context/CartContext";
 import DialogContext from "../../context/DialogContext";
@@ -73,7 +76,7 @@ function Cart(props) {
               <br />
               <SavingButton
                 className="themed-button"
-                startIcon={<Icon>https</Icon>}
+                // startIcon={<Icon>https</Icon>}
                 onClick={() =>
                   props.history.push({
                     pathname: "/checkout",
@@ -83,7 +86,7 @@ function Cart(props) {
                   })
                 }
               >
-                <Typography>Checkout</Typography>
+                <Typography>Proceed to Checkout</Typography>
               </SavingButton>
             </Block>
           </React.Fragment>
@@ -92,6 +95,64 @@ function Cart(props) {
         )}
       </Box>
     </motion.div>
+  );
+}
+
+export function WebCart() {
+  const { cartContext, setCartContext } = useContext(CartContext);
+  const { loadingScreen, setLoadingScreen } = useContext(LoadingScreenContext);
+
+  useEffect(() => {
+    (async () => {
+      await cartContext.fetchCart(setCartContext);
+      setLoadingScreen({ ...loadingScreen, visible: false, variant: null });
+    })();
+  }, []);
+  return (
+    <Box p={3}>
+      {cartContext.products.length ? (
+        <React.Fragment>
+          <OrdersBlock />
+          <Block
+            title={
+              <React.Fragment>
+                Total&nbsp;
+                <span style={{ color: "#000" }}>
+                  {cartContext.products.length} Item(s)
+                </span>
+              </React.Fragment>
+            }
+            p={0}
+          >
+            <Price>
+              <CurrencyFormat
+                value={cartContext.total}
+                displayType={"text"}
+                thousandSeparator={true}
+              />
+            </Price>
+            <br />
+            <br />
+            <SavingButton
+              className="themed-button"
+              // startIcon={<Icon>https</Icon>}
+              onClick={() =>
+                history.push({
+                  pathname: "/checkout",
+                  state: {
+                    service_name: "e-pagkain",
+                  },
+                })
+              }
+            >
+              <Typography>Proceed to Checkout</Typography>
+            </SavingButton>
+          </Block>
+        </React.Fragment>
+      ) : (
+        <EmptyListMessage>Cart is empty</EmptyListMessage>
+      )}
+    </Box>
   );
 }
 
@@ -246,7 +307,7 @@ export function AddToCart(props) {
     <motion.div animate="in" exit="out" initial="initial" variants={slideRight}>
       <Box p={3}>
         <ScreenHeader
-          title={!product.edit ? "Add To Cart" : "Edit Order"}
+          title={!product.edit ? "Product" : "Edit Order"}
           disabled={saving}
           pushTo={() => closeOrGoback()}
         />

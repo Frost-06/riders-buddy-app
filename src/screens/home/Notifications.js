@@ -272,4 +272,86 @@ export function NotificationCard(props) {
   return Renderer();
 }
 
+export function WebNotifications(props) {
+  const bcontext = useContext(BottomNavContext);
+  const { notificationContext, setNotificationContext } =
+    useContext(NotificationContext);
+  const [tabValue, setTabValue] = useState(0);
+  const { loadingScreen, setLoadingScreen } = useContext(LoadingScreenContext);
+  const menu = useMemo(
+    () => [
+      { icon: "icon-coke-burger md", title: "E-Pagkain" },
+      { icon: "icon-gift md", title: "E-Pasurprise" },
+      { icon: "icon-task md", title: "E-Pasugo" },
+      {
+        icon: (
+          <span className="icon-laundry md">
+            <span className="path1"></span>
+            <span className="path2"></span>
+            <span className="path3"></span>
+            <span className="path4"></span>
+            <span className="path5"></span>
+            <span className="path6"></span>
+          </span>
+        ),
+        title: "E-Palaba",
+      },
+      { icon: "icon-basket md", title: "E-Pabili" },
+    ],
+    []
+  );
+  useEffect(() => {
+    (async () => {
+      await notificationContext.fetchNotifications(setNotificationContext);
+      setLoadingScreen({ ...loadingScreen, visible: false, variant: null });
+    })();
+  }, []);
+  return (
+    <>
+      <Box m={3} marginTop={0} marginBottom={0}>
+        <Tabs
+          value={tabValue}
+          fullWidth
+          onChange={(e, val) => setTabValue(val)}
+        >
+          <Tab label={<AnimateOnTap>All</AnimateOnTap>} />
+          <Tab label={<AnimateOnTap>Chat</AnimateOnTap>} />
+          <Tab label={<AnimateOnTap>Unread</AnimateOnTap>} />
+          <Tab label={<AnimateOnTap>Updates</AnimateOnTap>} />
+        </Tabs>
+      </Box>
+      <SwipeableViews
+        resistance
+        index={tabValue}
+        onChangeIndex={(index) => setTabValue(index)}
+        style={{ paddingBottom: 50 }}
+      >
+        <Box height="100%">
+          <Block title="Chat">
+            <Notification type="chat" />
+          </Block>
+          <Block title="Riders Buddy">
+            <Notification type="update" />
+          </Block>
+        </Box>
+        <Box height="100%">
+          <Block title="Chat">
+            <Notification type="chat" />
+          </Block>
+        </Box>
+        <Box height="100%">
+          <Block title="Chat">
+            <Notification type="chat" status={0} />
+          </Block>
+        </Box>
+        <Box height="100%">
+          <Block title="Riders Buddy">
+            <Notification type="update" />
+          </Block>
+        </Box>
+      </SwipeableViews>
+    </>
+  );
+}
+
 export default Notifications;
