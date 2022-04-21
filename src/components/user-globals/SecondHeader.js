@@ -215,7 +215,7 @@ export default function SecondHeader(props) {
             <Divider style={{ marginTop: "32px" }} />
           </Box>
           <List>
-            {["About us", "Seller Center", "Help Center"].map((text, index) => (
+            {["About us", "Help Center"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemText primary={text} />
               </ListItem>
@@ -462,7 +462,7 @@ export default function SecondHeader(props) {
                       cursor: "pointer",
                     }}
                   >
-                    <Badge badgeContent={4} color="error">
+                    <Badge color="error">
                       <img
                         src="/assets/notifications.svg"
                         height="35"
@@ -478,7 +478,7 @@ export default function SecondHeader(props) {
                     }}
                     onClick={toggleDrawer("right", true)}
                   >
-                    <Badge badgeContent={4} color="error">
+                    <Badge color="error">
                       <img src="/assets/cart.svg" height="35" alt="cart-icon" />
                     </Badge>
                   </Link>
