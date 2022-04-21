@@ -262,10 +262,9 @@ function MerchantView(props) {
                   position: "absolute",
                   top: 0,
                   left: "50%",
-                  opacity: 0.7,
                 }}
               >
-                drag_handle
+                minimize
               </Icon>
               <motion.div
                 className="center-all"
