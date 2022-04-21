@@ -416,7 +416,9 @@ function OrderDetails(props) {
         <Box p={3}>
           {order.status === "pending" ? (
             <EmptyListMessage>
-              You may use the chat feature once this order is accepted.
+              To ensure that they can focus on their preparations, chat can only
+              be started by merchants. It will be available once the order is
+              accepted.
               <br />
               {isAllowed(userContext, ["driver"]) && (
                 <SavingButton

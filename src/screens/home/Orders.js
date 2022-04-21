@@ -1,6 +1,7 @@
 import {
   Box,
   ButtonBase,
+  Container,
   List,
   ListItem,
   Tab,
@@ -19,7 +20,7 @@ import BottomNavContext from "../../context/BottomNavContext";
 import DialogContext from "../../context/DialogContext";
 import LoadingScreenContext from "../../context/LoadingScreenContext";
 import OrderContext from "../../context/OrderContext";
-import { slideRight } from "../../misc/transitions";
+import { slideLeft } from "../../misc/transitions";
 import { getOR } from "../services/Checkout";
 const qs = require("query-string");
 
@@ -85,7 +86,7 @@ function Orders(props) {
       animate="in"
       exit="out"
       initial="initial"
-      variants={slideRight}
+      variants={slideLeft}
       style={{ height: "100%" }}
     >
       <Box p={3}>
@@ -188,7 +189,7 @@ export function Order(props) {
       {!orders.length ? <EmptyListMessage>Empty</EmptyListMessage> : null}
       <List>
         {orders.map((order, index) => (
-          <AnimateOnTap key={index}>
+          <AnimateOnTap button key={index}>
             <ListItem divider className={"order-item " + order.status}>
               {props.OrderCard ? (
                 <props.OrderCard {...order} />
