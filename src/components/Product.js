@@ -180,12 +180,14 @@ export function WithDeliveryPrice(props) {
         }
 
         //comment the e-pagkain to get delivery fee
+        // if (service_name === "e-pagkain" || service_name === null) {
         if (service_name === "e-pagkain" || service_name === null) {
           let routes = res?.routes;
           if (Object.keys(routes || {}).length) {
             const { distance, duration } = routes[0];
 
-            let deliveryFee = fee + per_km * (distance * 0.001);
+            //no decimal value
+            let deliveryFee = Math.round(fee + per_km * (distance * 0.001));
             let total = (cartContext.total + deliveryFee).toFixed(2);
             setFinalTotal({ deliveryFee, total });
             setCartContext({ ...cartContext, deliveryFee });

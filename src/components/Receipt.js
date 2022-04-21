@@ -104,9 +104,9 @@ function Receipt(props) {
           <td>
             <Typography>
               <CurrencyFormat
-                value={(
+                value={Math.round(
                   parseFloat(order.amount_paid) -
-                  (parseFloat(order.total) + parseFloat(order.delivery_fee))
+                    (parseFloat(order.total) + parseFloat(order.delivery_fee))
                 ).toFixed(2)}
                 prefix="P "
                 displayType={"text"}
