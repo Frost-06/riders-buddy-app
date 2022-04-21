@@ -106,7 +106,7 @@ function Notifications(props) {
           <Block title="Chat">
             <Notification type="chat" />
           </Block>
-          <Block title="Riders Buddy">
+          <Block title="Notifications">
             <Notification type="update" />
           </Block>
         </Box>
@@ -121,7 +121,7 @@ function Notifications(props) {
           </Block>
         </Box>
         <Box height="100%">
-          <Block title="Riders Buddy">
+          <Block title="Notifications">
             <Notification type="update" />
           </Block>
         </Box>
@@ -330,7 +330,7 @@ export function WebNotifications(props) {
           <Block title="Chat">
             <Notification type="chat" />
           </Block>
-          <Block title="Riders Buddy">
+          <Block title="Notifications">
             <Notification type="update" />
           </Block>
         </Box>
@@ -345,7 +345,7 @@ export function WebNotifications(props) {
           </Block>
         </Box>
         <Box height="100%">
-          <Block title="Riders Buddy">
+          <Block title="Notifications">
             <Notification type="update" />
           </Block>
         </Box>
