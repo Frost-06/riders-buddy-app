@@ -497,7 +497,7 @@ img {
   justify-content: space-between;
   width: 100%;
 }
-.merchant-card .product {
+.merchant-card .merchant {
   min-height: 300px;
   margin: 0 3px;
   width: 250px;
@@ -511,7 +511,7 @@ img {
   border-radius: 16px;
   box-shadow: 0px 12px 24px -4px rgba(110, 113, 145, 0.12);
 }
-.merchant-card .product p {
+.merchant-card .merchant p {
   font-size: 0.7rem;
   margin-bottom: 7px;
 }
@@ -519,7 +519,7 @@ img {
   .merchant-card {
     justify-content: space-around;
   }
-  .merchant-card .product {
+  .merchant-card .merchant {
     width: 100%;
     margin: 0;
     margin-bottom: 24px;

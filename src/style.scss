@@ -473,7 +473,7 @@ img {
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
-  .product {
+  .merchant {
     min-height: 300px;
     margin: 0 3px;
     width: 250px;
@@ -493,7 +493,7 @@ img {
   }
   @media all and (max-width: 800px) {
     justify-content: space-around;
-    & .product {
+    & .merchant {
       width: 100%;
       margin: 0;
       margin-bottom: 24px;
