@@ -62,6 +62,8 @@ function AdminUsers(props) {
             lookup: {
               Verified: "Verified",
               Unverified: "Unverified",
+              Suspended: "Suspended",
+              Banned: "Banned",
             },
           },
           {
