@@ -68,6 +68,25 @@ export function Login(props) {
         if (e.response) setErrors(e.response.data.errors);
       },
       after: (data) => {
+        //check user status
+        if (data?.user_status === "Verified") {
+          history.push("/");
+        } else if (data?.user_status === "Unverified") {
+          history.push("/verify-otp");
+        } else if (
+          data?.user_status === "Suspended" ||
+          data?.user_status === "Banned"
+        ) {
+          setsnackbarKey(
+            enqueueSnackbar(data?.message, {
+              variant: "warning",
+              autoHideDuration: 10000000,
+            })
+          );
+        }
+        //  else {
+        //   history.push("/verify-otp");
+        // }
         if (!data?.user_token) {
           setsnackbarKey(
             enqueueSnackbar(data?.message || "Email and Password required", {
@@ -76,18 +95,12 @@ export function Login(props) {
             })
           );
         } else if (data?.user_token) {
-          closeSnackbar(snackbarKey);
           if (data.user_token) {
             window.localStorage["user"] = JSON.stringify({
               user_token: data.user_token,
             });
             if (data.user) ucontext.setUserContext(data.user);
             else if (data.user_email) ucontext.setUserContext(data);
-            if (data.user_status === "Verified") {
-              history.push("/");
-            } else {
-              history.push("/verify-otp");
-            }
           }
         }
         setLoading(false);
