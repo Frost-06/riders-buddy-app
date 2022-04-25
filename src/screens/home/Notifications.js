@@ -93,7 +93,7 @@ function Notifications(props) {
           <Tab label={<AnimateOnTap>All</AnimateOnTap>} />
           <Tab label={<AnimateOnTap>Chat</AnimateOnTap>} />
           <Tab label={<AnimateOnTap>Unread</AnimateOnTap>} />
-          <Tab label={<AnimateOnTap>Updates</AnimateOnTap>} />
+          <Tab label={<AnimateOnTap>Notifications</AnimateOnTap>} />
         </Tabs>
       </Box>
       <SwipeableViews
@@ -195,7 +195,7 @@ export function NotificationCard(props) {
               <Typography variant="h6" style={{ fontWeight: 700 }}>
                 {provider_name}
               </Typography>
-              <Typography color="textSecondary" variant="body2">
+              <Typography color="#14142B" variant="body2">
                 {meta.title.substr(0, meta.title.indexOf("#") + 1) +
                   getOR(order_id)}
               </Typography>
@@ -236,18 +236,14 @@ export function NotificationCard(props) {
           <Box justifyContent="flex-start" className="center-all">
             <Box marginRight={1}>
               <Avatar
-                variant="square"
-                src="/static/images/logo.png"
+                variant="circle"
+                src={`/static/images/${meta.type}.svg`}
                 style={{ marginRight: 16 }}
-                alt="Ridersy Buddy"
+                alt={meta.type}
               />
             </Box>
             <Box>
-              <Typography
-                variant="h6"
-                style={{ fontWeight: 700 }}
-                color="primary"
-              >
+              <Typography variant="h6" style={{ fontWeight: 700 }}>
                 {meta.title}
               </Typography>
               <Typography
@@ -311,13 +307,22 @@ export function WebNotifications(props) {
       <Box m={3} marginTop={0} marginBottom={0}>
         <Tabs
           value={tabValue}
-          fullWidth
+          style={{ with: "464 !important" }}
           onChange={(e, val) => setTabValue(val)}
         >
-          <Tab label={<AnimateOnTap>All</AnimateOnTap>} />
-          <Tab label={<AnimateOnTap>Chat</AnimateOnTap>} />
-          <Tab label={<AnimateOnTap>Unread</AnimateOnTap>} />
-          <Tab label={<AnimateOnTap>Updates</AnimateOnTap>} />
+          <Tab
+            style={{ minWidth: 120 }}
+            label={<AnimateOnTap>All</AnimateOnTap>}
+          />
+          <Tab
+            style={{ minWidth: 120 }}
+            label={<AnimateOnTap>Chat</AnimateOnTap>}
+          />
+          <Tab
+            style={{ minWidth: 120 }}
+            label={<AnimateOnTap>Unread</AnimateOnTap>}
+          />
+          <Tab label={<AnimateOnTap>Notifications</AnimateOnTap>} />
         </Tabs>
       </Box>
       <SwipeableViews
