@@ -1,6 +1,6 @@
 export const fadeInOut = {
   initial: {
-    opacity: 0,
+    opacity: -1,
   },
   in: {
     opacity: 1,
