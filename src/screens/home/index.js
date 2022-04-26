@@ -22,7 +22,7 @@ import BottomNavContext from "../../context/BottomNavContext";
 import LoadingScreenContext from "../../context/LoadingScreenContext";
 import ServicesContext from "../../context/ServicesContext";
 import UserContext from "../../context/UserContext";
-import { slideLeft } from "../../misc/transitions";
+import { fadeInOut } from "../../misc/transitions";
 import Api from "../../utils/api";
 import fetchData from "../../utils/fetchData";
 import Services from "../services";
@@ -48,7 +48,7 @@ export function Home(props) {
     });
   }, []);
   return (
-    <motion.div initial="initial" animate="in" exit="out" variants={slideLeft}>
+    <motion.div initial="initial" animate="in" exit="out" variants={fadeInOut}>
       <Container disableGutters={true}>
         <Box
           width="100%"
