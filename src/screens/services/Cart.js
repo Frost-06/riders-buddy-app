@@ -286,7 +286,11 @@ export function AddToCart(props) {
                   ? props.history.replace("/cart")
                   : (window.location = "/cart")
               }
-              style={{ color: "#fff" }}
+              style={{
+                color: "#fff",
+                fontWeight: "800",
+                textDecoration: "underline",
+              }}
             >
               View Cart
             </Button>
