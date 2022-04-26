@@ -62,6 +62,7 @@ function Profile(props) {
               ...orderContext,
               isFetched: false,
             });
+            window.location.reload();
           }, profile.userContext),
         title: "Logout",
       },

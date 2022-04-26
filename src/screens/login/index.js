@@ -73,28 +73,47 @@ export function Login(props) {
           history.push("/");
         } else if (data?.user_status === "Unverified") {
           history.push("/verify-otp");
-        } else if (
-          data?.user_status === "Suspended" ||
-          data?.user_status === "Banned"
-        ) {
+        } else if (data?.user_status === "Suspended") {
           setsnackbarKey(
-            enqueueSnackbar(data?.message, {
-              variant: "warning",
-              autoHideDuration: 10000000,
-            })
+            enqueueSnackbar(
+              <React.Fragment>
+                <Typography>{data?.message}</Typography>
+                <Button
+                  onClick={() =>
+                    props.history
+                      ? props.history.replace("/lift-suspension")
+                      : (window.location = "/lift-suspension")
+                  }
+                  style={{
+                    color: "#fff",
+                    fontWeight: "800",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Disagree with decision
+                </Button>
+              </React.Fragment>,
+              {
+                preventDuplicate: true,
+                variant: "warning",
+                autoHideDuration: 10000000,
+              }
+            )
           );
         }
         //  else {
         //   history.push("/verify-otp");
         // }
-        if (!data?.user_token) {
+        else if (!data?.user_token) {
           setsnackbarKey(
             enqueueSnackbar(data?.message || "Email and Password required", {
+              preventDuplicate: true,
               variant: "error",
               autoHideDuration: 10000000,
             })
           );
-        } else if (data?.user_token) {
+        }
+        if (data?.user_token) {
           if (data.user_token) {
             window.localStorage["user"] = JSON.stringify({
               user_token: data.user_token,
