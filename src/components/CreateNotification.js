@@ -6,6 +6,9 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
   Switch,
   TextField,
   Typography,
@@ -25,6 +28,7 @@ import { NotificationCard } from "../screens/home/Notifications";
 import moment from "moment";
 import UserContext from "../context/UserContext";
 import DialogContext from "../context/DialogContext";
+import { Autocomplete } from "@material-ui/lab";
 
 function CreateNotification(props) {
   const { userContext } = useContext(UserContext);
@@ -38,6 +42,7 @@ function CreateNotification(props) {
   const titleRef = useRef();
   const actionRef = useRef();
   const bodyRef = useRef();
+  const notifTypeRef = useRef();
   const textFieldProps = useMemo(
     () => ({
       variant: "outlined",
@@ -54,6 +59,7 @@ function CreateNotification(props) {
           notif_meta={JSON.stringify({
             title: titleRef.current?.value || "",
             body: bodyRef.current?.value || "",
+            type: notifTypeRef.current?.value || "",
           })}
           viewed={1}
           created_at={moment()}
@@ -67,6 +73,7 @@ function CreateNotification(props) {
     setErrors({});
     titleRef.current.value = "";
     bodyRef.current.value = "";
+    notifTypeRef.current.value = "";
     setSendTo(null);
     setForEveryone(true);
     setOpen(false);
@@ -80,6 +87,7 @@ function CreateNotification(props) {
       const meta = {
         title: titleRef.current.value,
         body: bodyRef.current.value,
+        type: notifTypeRef.current.value,
       };
       if (!forEveryone && sendTo !== null) {
         form.consumer_user_id = sendTo.user_id;
@@ -144,6 +152,13 @@ function CreateNotification(props) {
       ],
     });
   }, [forEveryone, sendTo]);
+
+  const notifType = [
+    { label: "Announcement" },
+    { label: "Vouchers" },
+    { label: "Banned" },
+    { label: "Updates" },
+  ];
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
       <DialogTitle>Send Notifications</DialogTitle>
@@ -157,6 +172,7 @@ function CreateNotification(props) {
           helperText={errors["title"]}
           error={!!errors["title"]}
         />
+
         <br />
         <br />
         <TextField
@@ -179,6 +195,24 @@ function CreateNotification(props) {
           placeholder="URL"
           {...textFieldProps}
           fullWidth={false}
+        />
+        <br />
+        <Autocomplete
+          getOptionLabel={(option) => option.label.toString()}
+          options={notifType}
+          sx={{ width: 300 }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              inputRef={notifTypeRef}
+              type="text"
+              label="Type"
+              placeholder="Type"
+              {...textFieldProps}
+              helperText={errors["type"]}
+              error={!!errors["type"]}
+            />
+          )}
         />
         <br />
         <FormControlLabel
