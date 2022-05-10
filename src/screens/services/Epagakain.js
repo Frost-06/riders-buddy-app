@@ -8,7 +8,7 @@ import {
   Typography,
   Container,
 } from "@material-ui/core";
-import React from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { history } from "../../App";
 import AnimateOnTap from "../../components/AnimateOnTap";
 import { motion } from "framer-motion";
@@ -16,17 +16,33 @@ import HorizontalScroll from "../../components/HorizontalScroll";
 import ProductArchive from "../../components/ProductArchive";
 import { DOMAIN } from "../../utils/api";
 import { Block } from "../home";
-import { Rating } from "@material-ui/lab";
+import { Rating, Skeleton } from "@material-ui/lab";
 import { StarIcon } from "../../misc/CustomIcons";
+import fetchData from "../../utils/fetchData";
+import Api, { MapBoxApi } from "../../utils/api";
 
 function Epagakain(props) {
   const { merchants } = props.service;
+  const [loading, setLoading] = useState(true);
+  const [stores, setStores] = useState();
+
+  useEffect(() => {
+    fetchData({
+      before: async () => setLoading(true),
+      send: async () => await Api.get("/stores"),
+      after: (data) => {
+        setStores(data);
+        setLoading(false);
+      },
+    });
+  }, []);
+
   return (
     <Box width="100%" height="100%">
       {!props.hidden?.blocks["restaurants"] && (
         <Block
           p={0}
-          title="Popular Shops"
+          title="Our Shops"
           titleStyle={{
             paddingLeft: 24,
             paddingBottom: 0,
@@ -34,18 +50,36 @@ function Epagakain(props) {
           }}
         >
           <HorizontalScroll>
-            {merchants?.map((m, i) => (
-              <Box key={i} m={1} className="merchant-card">
-                <AnimateOnTap whileTap={{ opacity: 0.8 }}>
-                  <MerchantCard merchant={m} />
-                </AnimateOnTap>
-              </Box>
-            ))}
+            {stores &&
+              stores.map((store, i) => (
+                <Box key={i} className="merchant-card">
+                  <AnimateOnTap key={i} whileTap={{ opacity: 0.8 }}>
+                    <MerchantCard merchant={store} />
+                  </AnimateOnTap>
+                </Box>
+              ))}
+          </HorizontalScroll>
+          <HorizontalScroll>
+            {loading &&
+              new Array(5).fill(1).map((q, i) => (
+                <Box style={{ display: "inline-flex", flexGap: 1 }}>
+                  <Skeleton
+                    className="merchant-card"
+                    width={248}
+                    height={284}
+                    key={i}
+                    style={{ marginRight: 24, borderRadius: 16 }}
+                  />
+                </Box>
+              ))}
           </HorizontalScroll>
         </Block>
       )}
       {!props.hidden?.blocks["products"] && (
-        <Block title="Product and Services">
+        <Block
+          title="Product and Services"
+          style={{ paddingBottom: "13px !important" }}
+        >
           <ProductArchive
             params={props.blocks?.params["products"] || {}}
             history={props.history}
@@ -56,7 +90,20 @@ function Epagakain(props) {
   );
 }
 function MerchantCard(props) {
-  const { merch_banner, merch_name, merch_wp_id } = props.merchant;
+  // const { merch_name, merch_wp_id } = props.merchant;
+  const [stores, setStores] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData({
+      before: async () => setLoading(true),
+      send: async () => await Api.get("/stores"),
+      after: (data) => {
+        setStores(data);
+        setLoading(false);
+      },
+    });
+  }, []);
   var randomNumber = 20;
   return (
     <motion.div
@@ -69,63 +116,69 @@ function MerchantCard(props) {
         duration: 0.1,
       }}
     >
-      <Box
-        className="merchant"
-        component={ButtonBase}
-        onClick={() => history.push("/merchant/" + merch_wp_id)}
-      >
-        <div className="image">
-          <img
-            src={DOMAIN + "/storage/merchants/" + merch_banner}
-            alt={merch_name}
-          />
-        </div>
-        <Typography
-          style={{
-            width: "100%",
-            textAlign: "left",
-            textJustify: "inter-word",
-            display: "-webkit-box",
-            WebkitBoxOrient: "vertical",
-            WebkitLineClamp: 1,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            fontWeight: "700",
-          }}
-          variant="subtitle1"
-        >
-          {merch_name}
-        </Typography>
+      <Box style={{ paddingRight: 16 }}>
+        {/* {stores &&
+          stores.map((store) => ( */}
         <Box
-          variant="body2"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            alignContent: "center",
-          }}
+          key={props.merchant.vendor_id}
+          className="merchant"
+          component={ButtonBase}
+          onClick={() => history.push("/merchant/" + props.merchant.vendor_id)}
         >
-          <Rating
-            name="half-rating-read"
-            defaultValue={parseFloat(50 / 25)}
-            precision={0.5}
-            readOnly
-            size="small"
-            emptyIcon={
-              <StarIcon fontSize="inherit" style={{ color: "#D9DBE9" }} />
-            }
-            icon={<StarIcon fontSize="inherit" />}
+          <div className="image">
+            <img
+              src={props.merchant.vendor_shop_logo}
+              alt={props.merchant.vendor_display_name}
+            />
+          </div>
+          <Typography
             style={{
-              display: "inline-flex",
-              justifyContent: "center",
-              alignItems: "center",
+              width: "100%",
+              textAlign: "left",
+              textJustify: "inter-word",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 1,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              fontWeight: "700",
             }}
-          />
-          &nbsp;&nbsp;
-          <Typography variant="caption" style={{ color: "#6E7191" }}>
-            {randomNumber + 11}
+            variant="subtitle1"
+          >
+            {props.merchant.vendor_display_name}
           </Typography>
+          <Box
+            variant="body2"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              alignContent: "center",
+            }}
+          >
+            <Rating
+              name="half-rating-read"
+              defaultValue={parseFloat(50 / 25)}
+              precision={0.5}
+              readOnly
+              size="small"
+              emptyIcon={
+                <StarIcon fontSize="inherit" style={{ color: "#D9DBE9" }} />
+              }
+              icon={<StarIcon fontSize="inherit" />}
+              style={{
+                display: "inline-flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            />
+            &nbsp;&nbsp;
+            <Typography variant="caption" style={{ color: "#6E7191" }}>
+              {randomNumber + 11}
+            </Typography>
+          </Box>
         </Box>
+        {/* ))} */}
       </Box>
     </motion.div>
   );
