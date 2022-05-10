@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const DOMAIN = "http://localhost:3001/public";
+export const MERCHANT_DOMAIN = "http://localhost:3002";
 const SOCKET_DOMAIN = "http://localhost:3003";
 
 const Api = {
