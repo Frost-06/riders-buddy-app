@@ -244,10 +244,11 @@ function App() {
                               {userContext?.user_type?.name === "merchant" && (
                                 <Layout drawerRoutes={MerchantDrawerRoutes}>
                                   {MerchantRoutes.map((route, index) => (
-                                    <Route {...route} />
+                                    <Route key={index} {...route} />
                                   ))}
                                 </Layout>
                               )}
+
                               <Route
                                 render={(r) => {
                                   const { location } = r;
