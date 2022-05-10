@@ -31,7 +31,7 @@ export function ProductCard(props) {
     <Paper style={{ marginBottom: 24, position: "relative" }}>
       {props.header}
       {product.sale_price && (
-        <SalePrice
+        <SalePrice2
           style={{
             transform: props.variant === "small" ? "scale(1)" : "scale(1.7)",
             transformOrigin: "right",
@@ -44,7 +44,7 @@ export function ProductCard(props) {
               100
           )}
           % OFF
-        </SalePrice>
+        </SalePrice2>
       )}
       <Box p={2}>
         <Box className={"product " + props.variant || "big"}>
@@ -230,6 +230,14 @@ export function WithDeliveryPrice(props) {
 export function SalePrice(props) {
   return (
     <Box className="sale-price" style={props.style}>
+      <Typography style={{ fontWeight: 700 }}>{props.children}</Typography>
+    </Box>
+  );
+}
+
+export function SalePrice2(props) {
+  return (
+    <Box className="sale-price-2" style={props.style}>
       <Typography style={{ fontWeight: 700 }}>{props.children}</Typography>
     </Box>
   );
