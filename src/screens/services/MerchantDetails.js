@@ -1,4 +1,4 @@
-import { Avatar, Box } from "@material-ui/core";
+import { Avatar, Box, Container } from "@material-ui/core";
 import { Rating, Skeleton } from "@material-ui/lab";
 import { motion } from "framer-motion";
 import React, { useEffect, useMemo, useState } from "react";
@@ -9,6 +9,7 @@ import Api from "../../utils/api";
 import fetchData from "../../utils/fetchData";
 import { Block } from "../home";
 import { CartColumn } from "./Cart";
+import InnerHTML from "dangerously-set-html-content";
 
 function MerchantDetails(props) {
   const { merchant_id } = props.match.params;
@@ -83,7 +84,9 @@ function MerchantDetails(props) {
       >
         <CartColumn title="Description">
           <span
-            dangerouslySetInnerHTML={{ __html: vendor?.vendor_description }}
+            dangerouslySetInnerHTML={{
+              __html: vendor?.vendor_description,
+            }}
           ></span>
         </CartColumn>
         <CartColumn title="Location">
