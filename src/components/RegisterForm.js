@@ -257,6 +257,9 @@ function RegisterForm(props) {
                   })
                 }
                 saving={saving}
+                onKeyDown={({ key }) => {
+                  if (key === "Enter") onSubmit();
+                }}
               >
                 Continue
               </SavingButton>
