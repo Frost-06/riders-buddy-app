@@ -8,6 +8,7 @@ import {
   Link,
   useMediaQuery,
 } from "@material-ui/core";
+import { MERCHANT_DOMAIN } from "../../utils/api";
 
 function Footer(props) {
   const theme = useTheme();
@@ -243,7 +244,9 @@ function Footer(props) {
               Learn More
             </Typography>
             <Link>About us</Link>
-            <Link>Seller Center</Link>
+            <Link href={MERCHANT_DOMAIN} target="_blank">
+              Merchant Center
+            </Link>
             <Link>Help Center</Link>
           </Box>
 
