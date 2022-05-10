@@ -78,6 +78,7 @@ export default function SecondHeader(props) {
               ...orderContext,
               isFetched: false,
             });
+            window.location.reload();
           }, profile.userContext),
         title: "Logout",
       },
@@ -271,7 +272,7 @@ export default function SecondHeader(props) {
           justifyContent: "space-evenly",
         }}
       >
-        <Box style={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box m={1} style={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={tabValue}
             fullWidth
@@ -329,7 +330,7 @@ export default function SecondHeader(props) {
           variant="h4"
           style={{ margin: "auto", fontWeight: 700, color: "#fff" }}
         >
-          Notifications
+          Messages
         </Typography>
       </Container>
       <WebNotifications />
