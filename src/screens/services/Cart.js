@@ -311,7 +311,7 @@ export function AddToCart(props) {
     <motion.div animate="in" exit="out" initial="initial" variants={slideRight}>
       <Box p={3}>
         <ScreenHeader
-          title={!product.edit ? "Product" : "Edit Order"}
+          title={!product.edit ? "" : "Edit Order"}
           disabled={saving}
           pushTo={() => closeOrGoback()}
         />
@@ -349,13 +349,13 @@ export function AddToCart(props) {
           </SavingButton>
           <br />
           <br />
-          <Button
+          {/* <Button
             className="themed-button inverted"
             onClick={() => closeOrGoback()}
             disabled={saving}
           >
             Cancel
-          </Button>
+          </Button> */}
         </Container>
         <Box
           style={{
