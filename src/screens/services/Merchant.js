@@ -382,7 +382,8 @@ function Products(props) {
                   {product.sale_price && (
                     <SalePrice>
                       {parseInt(
-                        (parseFloat(product.sale_price) /
+                        ((parseFloat(product.regular_price) -
+                          parseFloat(product.sale_price)) /
                           parseFloat(product.regular_price)) *
                           100
                       )}
