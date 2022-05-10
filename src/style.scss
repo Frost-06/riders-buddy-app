@@ -427,7 +427,7 @@ img {
 .product-archive {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   .product {
     margin: 0 10px;
@@ -532,6 +532,34 @@ img {
     position: absolute;
     z-index: -1;
     left: -20px;
+    top: 0;
+    width: 20px;
+    height: 40px;
+    background: url("/static/images/sale-bg.svg");
+    background-size: cover;
+  }
+}
+
+.sale-price-2 {
+  position: absolute;
+  top: 0;
+  right: 3;
+  & p {
+    display: block;
+    line-height: 20px;
+    height: 20px;
+    background: #1aa3e9;
+    margin-right: -65px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #fff;
+    z-index: 2;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -10px;
     top: 0;
     width: 20px;
     height: 40px;
