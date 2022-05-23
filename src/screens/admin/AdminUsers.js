@@ -22,6 +22,7 @@ function AdminUsers(props) {
       },
     });
   }, []);
+  const currentDate = moment().format("MM-ddd-YYYY-hh:mm:ss a");
   const [open, setOpen] = useState(false);
   return (
     <Box p={3}>
@@ -43,6 +44,12 @@ function AdminUsers(props) {
           pageSize: 10,
           pageSizeOptions: [10, 20, 50, 100],
           filtering: true,
+          exportButton: {
+            csv: true,
+            pdf: true,
+          },
+          exportFileName: `Users ${currentDate}`,
+          grouping: true,
         }}
         onRowClick={(e, row) => {
           window.open(
@@ -151,6 +158,9 @@ function AdminUsers(props) {
           {
             title: "Password",
             field: "user_password",
+            filtering: false,
+            search: false,
+            export: false,
             editable: "onAdd",
           },
           {

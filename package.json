@@ -14,7 +14,6 @@
     "d3-ease": "^2.0.0",
     "dangerously-set-html-content": "^1.0.9",
     "framer-motion": "^2.9.4",
-    "material-table": "^1.69.2",
     "material-ui-popup-state": "^1.7.1",
     "moment": "^2.29.0",
     "notistack": "^1.0.1",
