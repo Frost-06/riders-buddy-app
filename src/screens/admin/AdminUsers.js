@@ -22,10 +22,7 @@ function AdminUsers(props) {
       },
     });
   }, []);
-<<<<<<< HEAD
-=======
   const currentDate = moment().format("MM-ddd-YYYY-hh:mm:ss a");
->>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
   const [open, setOpen] = useState(false);
   return (
     <Box p={3}>
@@ -145,6 +142,7 @@ function AdminUsers(props) {
           {
             title: "ID",
             field: "user_id",
+            defaultSort: "desc",
           },
           {
             title: "First Name",
@@ -161,12 +159,9 @@ function AdminUsers(props) {
           {
             title: "Password",
             field: "user_password",
-<<<<<<< HEAD
-=======
             filtering: false,
             search: false,
             export: false,
->>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
             editable: "onAdd",
           },
           {

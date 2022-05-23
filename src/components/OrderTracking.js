@@ -59,6 +59,7 @@ function OrderTracking(props) {
             field: "order_id",
             render: (row) => <b>{"#" + getOR(row.order_id)}</b>,
             editable: "never",
+            defaultSort: "desc",
           },
           {
             title: "Date",

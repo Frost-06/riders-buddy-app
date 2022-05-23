@@ -7,7 +7,6 @@ import fetchData from "../../utils/fetchData";
 import { getOR } from "../services/Checkout";
 import moment from "moment";
 import CurrencyFormat from "react-currency-format";
-import * as XLSX from "xlsx/xlsx.mjs";
 
 function MerchantTransactions(props) {
   const [transactions, setTransactions] = useState();
@@ -49,22 +48,6 @@ function MerchantTransactions(props) {
         title={
           <Box className="center-all" justifyContent="flex-start">
             <ScreenHeader noGoBack title="Transactions" />
-<<<<<<< HEAD
-
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() =>
-                window.open(
-                  Api.getUrl("/export/orders?token=" + Api.getToken()),
-                  "_blank"
-                )
-              }
-            >
-              Export
-            </Button>
-=======
->>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
           </Box>
         }
         columns={[
@@ -73,6 +56,7 @@ function MerchantTransactions(props) {
             field: "order_id",
             render: (row) => <b>{"#" + getOR(row.order_id)},</b>,
             editable: "never",
+            defaultSort: "desc",
           },
 
           {

@@ -157,10 +157,6 @@ function CreateNotification(props) {
     { label: "Announcement" },
     { label: "Delivery-fee" },
     { label: "Suspension" },
-<<<<<<< HEAD
-
-=======
->>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
   ];
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
@@ -199,6 +195,7 @@ function CreateNotification(props) {
           {...textFieldProps}
           fullWidth={false}
         />
+        <br />
         <br />
         <Autocomplete
           getOptionLabel={(option) => option.label.toString()}
