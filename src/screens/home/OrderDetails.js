@@ -39,6 +39,7 @@ import { goBackOrPush } from "../../utils/goBackOrPush";
 import { isAllowed, isEither } from "../../utils/isAllowed";
 import { CartColumn } from "../services/Cart";
 import { getOR } from "../services/Checkout";
+import moment from "moment";
 const qs = require("query-string");
 
 function OrderDetails(props) {
@@ -280,7 +281,7 @@ function OrderDetails(props) {
           }
         >
           <Tab label="Info" />
-          <Tab label="Products" />
+          <Tab label="Products/Services" />
           <Tab label="Note" />
           <Tab label="Chat" />
           <Tab label="Receipt" disabled={order.status !== "received"} />
@@ -353,6 +354,14 @@ function OrderDetails(props) {
                 {order.delivery_info.address.place_name}
               </Typography>
             </CartColumn>
+            {
+              JSON.stringify(order.products).indexOf('\\"type\\":\\"external\\') >= 0 &&
+              <CartColumn title="Reservation Date">
+                <Typography style={{ fontWeight: 700 }} color="primary">
+                  {moment(order.reservation_date).format('lll')}
+                </Typography>
+              </CartColumn>
+            }
             <CartColumn title="Delivery Fee">
               <Typography style={{ fontWeight: 700 }} color="primary">
                 <CurrencyFormat

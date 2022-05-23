@@ -14,7 +14,7 @@ export function GrossSales(props) {
     }
   }, [props.data]);
   return (
-    <SalesCardLayout
+    <SalesCardLayout2
       title="Gross Sales"
       icon="payments"
       color="blue"
@@ -39,7 +39,7 @@ export function GrossSales(props) {
           )}
         />
       }
-    </SalesCardLayout>
+    </SalesCardLayout2>
   );
 }
 
@@ -77,11 +77,12 @@ export function TotalOrders(props) {
       setLoading(false);
     }
   }, [props.data]);
+
   return (
     <SalesCardLayout
       title="Total Orders"
-      icon="shopping_cart"
-      color="orange"
+      icon="sell"
+      color="blue"
       loading={loading}
       reload={() => {
         setLoading(true);
@@ -101,13 +102,13 @@ export function TotalOrders(props) {
         <tr>
           <td>
             <Typography>
-              DELIVERED <b>{props.data && props.data["received"]}</b>
+              DONE <b>{props.data && props.data["received"]}</b>
             </Typography>
             <Typography>
               PENDING <b>{props.data && props.data["pending"]}</b>
             </Typography>
             <Typography>
-              TO DELIVER <b>{props.data && props.data["receiving"]}</b>
+              ONGOING <b>{props.data && props.data["receiving"]}</b>
             </Typography>
           </td>
           <td>
@@ -135,6 +136,8 @@ export function SalesByProduct(props) {
             const product = JSON.parse(product_meta);
             return {
               label: product.name,
+              //for product type
+              type: product.type,
               y: total_items,
             };
           })
@@ -149,7 +152,7 @@ export function SalesByProduct(props) {
     <SalesCardLayout
       title="Items Sold By Product"
       icon="local_mall"
-      color="orange"
+      color="blue"
       loading={loading}
       reload={() => {
         setLoading(true);
@@ -160,26 +163,29 @@ export function SalesByProduct(props) {
     >
       <Box position="absolute" left={0} right={0} component={Paper}>
         {!loading && Object.keys(data).length ? (
-          <CanvasJSChart
-            options={{
-              theme: "light2",
-              animationEnabled: true,
-              exportFileName: "Sales By Product",
-              exportEnabled: true,
-              data: [
-                {
-                  type: "pie",
-                  showInLegend: true,
-                  legendText: "{label}",
-                  toolTipContent: "{label}: <strong>{y} pcs</strong>",
-                  indexLabel: "{y} pcs",
-                  indexLabelPlacement: "inside",
-                  dataPoints: data,
-                },
-              ],
-            }}
-          />
+          <>
+            <CanvasJSChart
+              options={{
+                theme: "light2",
+                animationEnabled: true,
+                exportFileName: "Sales By Product",
+                exportEnabled: true,
+                data: [
+                  {
+                    type: "pie",
+                    showInLegend: true,
+                    legendText: "{label}",
+                    toolTipContent: "{label}: <strong>{y} pcs</strong>",
+                    indexLabel: "{y} pcs",
+                    indexLabelPlacement: "inside",
+                    dataPoints: data,
+                  },
+                ],
+              }}
+            />
+          </>
         ) : null}
+
         {!loading && !Object.keys(data).length ? (
           <EmptyListMessage>No Data</EmptyListMessage>
         ) : null}
@@ -214,7 +220,7 @@ export function SalesMonthly(props) {
     <SalesCardLayout
       title="Sales Report by date"
       icon="payments"
-      color="green"
+      color="blue"
       loading={loading}
       reload={() => {
         setLoading(true);
@@ -227,6 +233,7 @@ export function SalesMonthly(props) {
         {!loading && Object.keys(data).length ? (
           <CanvasJSChart
             options={{
+              exportEnabled: true,
               animationEnabled: true,
               theme: "light2",
               title: {
@@ -272,6 +279,37 @@ function SalesCardLayout(props) {
   return (
     <Paper>
       <Box p={2} display="flex">
+        {reload && (
+          <IconButton className="chart-reload" onClick={() => reload()}>
+            <Icon>refresh</Icon>
+          </IconButton>
+        )}
+        <div className={"chart-icon " + color}>
+          <Icon>{icon}</Icon>
+        </div>
+        <Box width="100%">
+          <Typography variant="h6">{title}</Typography>
+          {loading && (
+            <Skeleton
+              width="30%"
+              height={35}
+              variant="rect"
+              animation="wave"
+              style={{ borderRadius: 5 }}
+            />
+          )}
+          {!loading && props.children}
+        </Box>
+      </Box>
+    </Paper>
+  );
+}
+
+function SalesCardLayout2(props) {
+  const { title, icon, color, loading, reload } = props;
+  return (
+    <Paper>
+      <Box p={2} display="flex" style={{ height: "152px !important" }}>
         {reload && (
           <IconButton className="chart-reload" onClick={() => reload()}>
             <Icon>refresh</Icon>

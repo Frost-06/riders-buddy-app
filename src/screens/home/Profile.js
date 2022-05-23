@@ -38,7 +38,7 @@ function Profile(props) {
       {
         icon: <span className="icon-cart-alt md"></span>,
         url: "/orders",
-        title: "My Orders",
+        title: "My Activities",
       },
       {
         icon: <span className="icon-location-alt md"></span>,

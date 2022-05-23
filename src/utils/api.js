@@ -173,5 +173,21 @@ export const MapBoxApi = {
           process.env.REACT_APP_MAPBOX_TOKEN
       )
       .then((resp) => resp.data);
+  },getDistance: async (customerAddress, merchCoord) => {
+    if (!merchCoord.length || !customerAddress.length) return;
+    const customerLatLong = await axios.get(
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/"+customerAddress+".json?types=place%2Cpostcode%2Caddress&access_token="+process.env.REACT_APP_MAPBOX_TOKEN
+    );
+    if(!customerLatLong.data.features[0]) return;
+    const {coordinates} = customerLatLong.data.features[0].geometry;
+    const coord = coordinates.join(",")+";"+merchCoord;
+    return await axios
+      .get(
+        "https://api.mapbox.com/directions/v5/mapbox/driving/" +
+        coord +
+          "?alternatives=true&geometries=geojson&language=en&overview=simplified&steps=true&access_token=" +
+          process.env.REACT_APP_MAPBOX_TOKEN
+      )
+      .then((resp) => resp.data);
   },
 };

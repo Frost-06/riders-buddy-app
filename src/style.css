@@ -9,6 +9,7 @@ body {
       -ms-user-select: none;
           user-select: none;
   box-sizing: border-box;
+  font-family: "eudoxus sans";
 }
 
 img {
@@ -197,6 +198,7 @@ img {
 }
 .menu-item-wrapper:first-of-type > div {
   margin-left: 30px;
+  padding: 20px 0px 10px 0px;
 }
 
 .merchant-banner {
@@ -451,6 +453,7 @@ img {
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 100%;
+  padding: 20px 0px 10px 0px;
 }
 .product-archive .product {
   margin: 0 10px;

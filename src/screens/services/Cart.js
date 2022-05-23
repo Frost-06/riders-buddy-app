@@ -5,15 +5,27 @@ import {
   Container,
   Icon,
   IconButton,
+  Tab,
+  Tabs,
+  TextField,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
 import { motion } from "framer-motion";
 import { useSnackbar } from "notistack";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import CurrencyFormat from "react-currency-format";
+import SwipeableViews from "react-swipeable-views/lib/SwipeableViews";
 import { history } from "../../App";
+import AnimateOnTap from "../../components/AnimateOnTap";
 import EmptyListMessage from "../../components/EmptyListMessage";
 import { InputQuantity, Price, ProductCard } from "../../components/Product";
 import SavingButton from "../../components/SavingButton";
@@ -25,6 +37,8 @@ import DialogContext from "../../context/DialogContext";
 import LoadingScreenContext from "../../context/LoadingScreenContext";
 import UserContext from "../../context/UserContext";
 import { slideRight } from "../../misc/transitions";
+import Api from "../../utils/api";
+import fetchData from "../../utils/fetchData";
 import { goBackOrPush } from "../../utils/goBackOrPush";
 import { Block } from "../home";
 import Footer from "../home/Footer";
@@ -47,13 +61,41 @@ function Cart(props) {
       setLoadingScreen({ ...loadingScreen, visible: false, variant: null });
     })();
   }, []);
+  const [tabValue, setTabValue] = useState(0);
   return (
     <motion.div animate="in" exit="out" initial="initial" variants={slideRight}>
       <Box p={3}>
         <ScreenHeader title="Cart" />
         {cartContext.products.length ? (
           <React.Fragment>
-            <OrdersBlock />
+            <Tabs
+              value={tabValue}
+              fullWidth
+              onChange={(e, val) => setTabValue(val)}
+              sx={{
+                width: "100%",
+              }}
+            >
+              <Tab label={<AnimateOnTap>Products</AnimateOnTap>} />
+              <Tab label={<AnimateOnTap>Services</AnimateOnTap>} />
+            </Tabs>
+
+            <SwipeableViews
+              resistance
+              index={tabValue}
+              onChangeIndex={(index) => setTabValue(index)}
+            >
+              <Box>
+                <Block title="Your Orders" p={0}>
+                  <WebCart type="simple" />
+                </Block>
+              </Box>
+              <Box>
+                <Block title="Your Bookings" p={0}>
+                  <WebCart type="external" />
+                </Block>
+              </Box>
+            </SwipeableViews>
             <Block
               title={
                 <React.Fragment>
@@ -98,7 +140,7 @@ function Cart(props) {
   );
 }
 
-export function WebCart() {
+export function WebCart({ type }) {
   const { cartContext, setCartContext } = useContext(CartContext);
   const { loadingScreen, setLoadingScreen } = useContext(LoadingScreenContext);
 
@@ -109,45 +151,10 @@ export function WebCart() {
     })();
   }, []);
   return (
-    <Box p={3}>
+    <Box>
       {cartContext.products.length ? (
         <React.Fragment>
-          <OrdersBlock />
-          <Block
-            title={
-              <React.Fragment>
-                Total&nbsp;
-                <span style={{ color: "#000" }}>
-                  {cartContext.products.length} Item(s)
-                </span>
-              </React.Fragment>
-            }
-            p={0}
-          >
-            <Price>
-              <CurrencyFormat
-                value={cartContext.total}
-                displayType={"text"}
-                thousandSeparator={true}
-              />
-            </Price>
-            <br />
-            <br />
-            <SavingButton
-              className="themed-button"
-              // startIcon={<Icon>https</Icon>}
-              onClick={() =>
-                history.push({
-                  pathname: "/checkout",
-                  state: {
-                    service_name: "e-pagkain",
-                  },
-                })
-              }
-            >
-              <Typography>Proceed to Checkout</Typography>
-            </SavingButton>
-          </Block>
+          <OrdersBlock type={type} />
         </React.Fragment>
       ) : (
         <EmptyListMessage>Cart is empty</EmptyListMessage>
@@ -161,69 +168,79 @@ export function OrdersBlock(props) {
   const { setDialogContext } = useContext(DialogContext);
   const { userContext } = useContext(UserContext);
   const { enqueueSnackbar } = useSnackbar();
-
+  console.log(cartContext.products);
   return (
-    <Block title="Your Order" p={0}>
-      {cartContext.products.map((item) => (
-        <ProductCard
-          product={item.product}
-          key={item.product.id}
-          variant="small"
-          header={
-            <Box position="absolute" top={10} right={0}>
-              <IconButton
-                onClick={() =>
-                  setDialogContext({
-                    visible: true,
-                    title: "Remove to Cart",
-                    message: (
-                      <Box>
-                        <Typography>
-                          Do you want to remove this item to your cart?
-                        </Typography>
-                        <ProductCard
-                          product={item.product}
-                          key={item.product.id}
-                          variant="small"
-                        >
-                          <Typography>Quantity {item.quantity}</Typography>
-                        </ProductCard>
-                      </Box>
-                    ),
-                    actions: [
-                      {
-                        name: "YES",
-                        callback: ({ closeDialog, setLoading }) => {
-                          setLoading(true);
-                          cartContext.removeFromCart(item, userContext, () => {
-                            closeDialog();
-                            setLoading(false);
-                            enqueueSnackbar("Removed", {
-                              variant: "success",
-                            });
-                          });
+    <Block title="" p={0}>
+      {cartContext.products
+        .filter(
+          (q) =>
+            JSON.stringify(q).toLowerCase().indexOf(`"type":"${props.type}"`) >=
+            0
+        )
+        .map((item) => (
+          <ProductCard
+            product={item.product}
+            key={item.product.id}
+            variant="small"
+            header={
+              <Box position="absolute" top={10} right={0}>
+                <IconButton
+                  onClick={() =>
+                    setDialogContext({
+                      visible: true,
+                      title: "Remove to Cart",
+                      message: (
+                        <Box>
+                          <Typography>
+                            Do you want to remove this item to your cart?
+                          </Typography>
+                          <ProductCard
+                            product={item.product}
+                            key={item.product.id}
+                            variant="small"
+                          >
+                            <Typography>Quantity {item.quantity}</Typography>
+                          </ProductCard>
+                        </Box>
+                      ),
+                      actions: [
+                        {
+                          name: "YES",
+                          callback: ({ closeDialog, setLoading }) => {
+                            setLoading(true);
+                            cartContext.removeFromCart(
+                              item,
+                              userContext,
+                              () => {
+                                closeDialog();
+                                setLoading(false);
+                                enqueueSnackbar("Removed", {
+                                  variant: "success",
+                                });
+                              }
+                            );
+                          },
+                          props: {
+                            variant: "contained",
+                            color: "primary",
+                          },
                         },
-                        props: {
-                          variant: "contained",
-                          color: "primary",
+                        {
+                          name: "Cancel",
+                          callback: ({ closeDialog }) => closeDialog(),
                         },
-                      },
-                      {
-                        name: "Cancel",
-                        callback: ({ closeDialog }) => closeDialog(),
-                      },
-                    ],
-                  })
-                }
-              >
-                <Icon>close</Icon>
-              </IconButton>
-            </Box>
-          }
-        >
-          <Typography>Quantity {item.quantity}</Typography>
-        </ProductCard>
-      ))}
+                      ],
+                    })
+                  }
+                >
+                  <Icon>close</Icon>
+                </IconButton>
+              </Box>
+            }
+          >
+            <Typography>Quantity {item.quantity}</Typography>
+          </ProductCard>
+        ))}
     </Block>
   );
 }
@@ -240,6 +257,25 @@ export function AddToCart(props) {
   const [saving, setSaving] = useState(false);
   const { cartContext } = useContext(CartContext);
   const { enqueueSnackbar } = useSnackbar();
+  const [ratings, setRatings] = useState(true);
+  const rateRef = useRef();
+  const rateMessage = useRef();
+
+  const rateProduct = useCallback(() => {
+    fetchData({
+      send: async () =>
+        await Api.post("/rate/merchant", {
+          body: {
+            user_id: userContext.user_id,
+            ratee_id: product.id,
+            rate_number: rateRef.current,
+            rate_message: rateMessage.current,
+            is_product: 1,
+          },
+        }),
+      after: (data) => {},
+    });
+  }, [product]);
 
   const closeOrGoback = useCallback(() => {
     if (props.onClose) {
@@ -261,6 +297,7 @@ export function AddToCart(props) {
         sale_price,
         name,
         regular_price,
+        type,
       } = product;
       const order = { quantity };
       order.product = {
@@ -273,6 +310,7 @@ export function AddToCart(props) {
         sale_price,
         name,
         merchant,
+        type,
       };
       cartContext.addToCart(order, userContext, () => {
         setSaving(false);
@@ -307,6 +345,22 @@ export function AddToCart(props) {
     const { setBottomNavContext, bottomNavContext } = bcontext;
     setBottomNavContext({ ...bottomNavContext, visible: false });
   }, []);
+
+  useEffect(() => {
+    fetchData({
+      send: async () =>
+        await Api.get(
+          "/ratings?user_id=" +
+            userContext.user_id +
+            "&product_id=" +
+            product.id
+        ),
+      after: (ratings) => {
+        setRatings(ratings);
+      },
+    });
+  }, [product]);
+
   return product.id ? (
     <motion.div animate="in" exit="out" initial="initial" variants={slideRight}>
       <Box p={3}>
@@ -356,6 +410,34 @@ export function AddToCart(props) {
           >
             Cancel
           </Button> */}
+          {!ratings?.rated && (
+            <CartColumn title="Rate">
+              <Rating
+                name="half-rating-read"
+                precision={0.5}
+                onChange={(e) => {
+                  rateRef.current = e.target.value;
+                }}
+              />
+              <TextField
+                label="Comment"
+                onChange={(e) => {
+                  rateMessage.current = e.target.value;
+                }}
+              />
+              <Button onClick={rateProduct}>Submit</Button>
+            </CartColumn>
+          )}
+          {ratings?.ratings?.map((rating) => (
+            <>
+              {rating.rate_number}
+              <br />
+              <b>{rating.user_fname}</b>
+              <br />
+              <b>{rating.rate_message}</b>
+              <br />
+            </>
+          ))}
         </Container>
         <Box
           style={{

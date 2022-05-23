@@ -16,7 +16,7 @@ function MerchantHome(props) {
   const to = useMemo(() => moment().add(30, "days").format("YYYY-MM-01"));
   const [params, setParams] = useState({ from, to });
   return (
-    <Box p={3}>
+    <Box p={3} paddingTop={5}>
       <ScreenHeader title="Dashboard" noGoBack />
       <Box className="center-all" justifyContent="flex-end" marginTop="-70px">
         <Typography style={{ marginRight: 14 }}>Range</Typography>
@@ -60,6 +60,11 @@ function MerchantHome(props) {
         </SalesProviderSuper>
       </Box>
       <Box className="center-all" justifyContent="space-between">
+        <Box className="sales-card" display="block" minWidth={400}>
+          <SalesProviderSuper params={`&from=${params.from}&to=${params.to}`}>
+            <SalesByProductChart />
+          </SalesProviderSuper>
+        </Box>
         <Box className="sales-card" display="block" minWidth={400}>
           <SalesProviderSuper params={`&from=${params.from}&to=${params.to}`}>
             <SalesByProductChart />

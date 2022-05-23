@@ -48,7 +48,7 @@ export function ProductCard(props) {
       )}
       <Box p={2}>
         <Box className={"product " + props.variant || "big"}>
-          <img src={product.images[0].src} width="100%" alt={product.name} />
+          <img src={product?.images[0]?.src} width="100%" alt={product.name} />
           <br />
           <Box>
             <Typography

@@ -19,6 +19,7 @@ import { Block } from "../home";
 import { Rating, Skeleton } from "@material-ui/lab";
 import { StarIcon } from "../../misc/CustomIcons";
 import fetchData from "../../utils/fetchData";
+import UserContext from "../../context/UserContext";
 import Api, { MapBoxApi } from "../../utils/api";
 
 function Epagakain(props) {
@@ -42,7 +43,7 @@ function Epagakain(props) {
       {!props.hidden?.blocks["restaurants"] && (
         <Block
           p={0}
-          title="Our Shops"
+          title="Browse Shops"
           titleStyle={{
             paddingLeft: 24,
             paddingBottom: 0,
@@ -90,21 +91,26 @@ function Epagakain(props) {
   );
 }
 function MerchantCard(props) {
-  // const { merch_name, merch_wp_id } = props.merchant;
-  const [stores, setStores] = useState();
-  const [loading, setLoading] = useState(true);
+  const [distance, setDistance] = useState();
+  var randomNumber = 20;
+  const { userContext } = useContext(UserContext);
+  const address = (() => {
+    const { street, barangay, city, zip } = userContext.default_address;
+    return `${street ? street + ", " : ""}${barangay}, ${city}, ${zip}`;
+  })();
 
   useEffect(() => {
-    fetchData({
-      before: async () => setLoading(true),
-      send: async () => await Api.get("/stores"),
-      after: (data) => {
-        setStores(data);
-        setLoading(false);
-      },
+    MapBoxApi.getDistance(
+      address,
+      props.merchant.merch.merch_long + "," + props.merchant.merch.merch_lat
+    ).then((data) => {
+      const { routes } = data || {};
+      if (routes?.length) {
+        setDistance(Math.round(routes[0].distance * 0.001, 2) + "KM");
+      }
     });
   }, []);
-  var randomNumber = 20;
+
   return (
     <motion.div
       initial={{ scale: 1 }}
@@ -125,6 +131,21 @@ function MerchantCard(props) {
           component={ButtonBase}
           onClick={() => history.push("/merchant/" + props.merchant.vendor_id)}
         >
+          <Typography
+            variant="body2"
+            style={{
+              background:
+                "linear-gradient(281.86deg, #76C8F2 11.84%, #1AA3E9 63.88%)",
+              padding: 6,
+              border: "1px solid #1AA3E9",
+              color: "#fff",
+              borderRadius: 8,
+              marginTop: 24,
+              fontWeight: "800",
+            }}
+          >
+            {distance}
+          </Typography>
           <div className="image">
             <img
               src={props.merchant.vendor_shop_logo}
@@ -158,7 +179,7 @@ function MerchantCard(props) {
           >
             <Rating
               name="half-rating-read"
-              defaultValue={parseFloat(50 / 25)}
+              defaultValue={props.merchant.ratings.average}
               precision={0.5}
               readOnly
               size="small"
@@ -174,7 +195,7 @@ function MerchantCard(props) {
             />
             &nbsp;&nbsp;
             <Typography variant="caption" style={{ color: "#6E7191" }}>
-              {randomNumber + 11}
+              ({props.merchant.ratings.rating_count})
             </Typography>
           </Box>
         </Box>

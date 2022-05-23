@@ -237,34 +237,34 @@ export const bottomNavRoutes = {
 export const AdminDrawerRoutes = [
   {
     url: "/",
-    label: "Home",
-    icon: "home",
-    value: "home",
+    label: "Activities",
+    icon: "sell",
+    value: "home_rounded",
   },
   {
     url: "/users",
     label: "Users",
-    icon: "people",
-    value: "users",
+    icon: "persons",
+    value: "person",
   },
   {
     url: "/notifications",
     label: "Notifications",
-    icon: "notifications",
+    icon: "notifications_rounded",
     value: "notifications",
   },
 ];
 export const MerchantDrawerRoutes = [
   {
     url: "/",
-    label: "Home",
-    icon: "home",
-    value: "home",
+    label: "Dashboard",
+    icon: "dashboard",
+    value: "dashboard",
   },
   {
     url: "/transactions",
     label: "Transactions",
-    icon: "receipt_long",
+    icon: "receipt",
     value: "transactions",
   },
   {

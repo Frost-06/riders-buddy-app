@@ -262,27 +262,6 @@ function Footer(props) {
                 fontSize: "20px",
                 fontWeight: "bold",
                 color: "#1AA3E9",
-              }}
-            >
-              Categories
-            </Typography>
-            <Link>Bicycle</Link>
-            <Link>Motorcycle</Link>
-            <Link>Shops</Link>
-          </Box>
-
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "56px",
-            }}
-          >
-            <Typography
-              style={{
-                fontSize: "20px",
-                fontWeight: "bold",
-                color: "#1AA3E9",
                 paddingTop: isMd ? "64px" : "",
               }}
             >

@@ -35,6 +35,7 @@ export const getCartContext = (setCartContext) => ({
         return t;
       })(),
     };
+    console.log(updatedContext);
     fetchData({
       send: async () =>
         Api.post("/cart?token=" + Api.getToken(), {

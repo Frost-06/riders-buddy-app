@@ -39,6 +39,7 @@ export function Login(props) {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [snackbarKey, setsnackbarKey] = useState();
+  const { userContext, setUserContext } = useContext(UserContext);
   const textFieldProps = useCallback(
     (type) => ({
       variant: "outlined",
@@ -72,6 +73,7 @@ export function Login(props) {
         if (data?.user_status === "Verified") {
           history.push("/");
         } else if (data?.user_status === "Unverified") {
+          setUserContext(form);
           history.push("/verify-otp");
         } else if (data?.user_status === "Suspended") {
           setsnackbarKey(
@@ -101,9 +103,7 @@ export function Login(props) {
             )
           );
         }
-        //  else {
-        //   history.push("/verify-otp");
-        // }
+        
         else if (!data?.user_token) {
           setsnackbarKey(
             enqueueSnackbar(data?.message || "Email and Password required", {
@@ -112,6 +112,9 @@ export function Login(props) {
               autoHideDuration: 10000000,
             })
           );
+        }
+         else {
+          history.push("/verify-otp");
         }
         if (data?.user_token) {
           if (data.user_token) {
@@ -126,7 +129,6 @@ export function Login(props) {
       },
     });
   }, []);
-  const { userContext, setUserContext } = useContext(UserContext);
   return (
     // <ScreenTemplate1
     //   title={<ScreenHeader path="/get-started" title="Sign in" />}

@@ -9,6 +9,7 @@ function HorizontalScroll(props) {
       data={props.children}
       inertiaScrolling={true}
       inertiaScrollingSlowdown={5}
+      style={{ padding: 120 }}
     />
   );
 }

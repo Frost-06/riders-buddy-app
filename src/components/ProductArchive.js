@@ -77,7 +77,8 @@ function ProductArchive(props) {
       color: "#E61B00",
     },
   });
-
+  // const items = products.sort(() => Math.random() - Math.random()).slice(0, 5);
+  const items = products.sort();
   return (
     <React.Fragment>
       <Dialog
@@ -98,8 +99,8 @@ function ProductArchive(props) {
       </Dialog>
 
       <Box className="product-archive">
-        {products &&
-          products.map((product) => (
+        {items &&
+          items.map((item, i) => (
             <motion.div
               initial={{ scale: 1 }}
               whileHover={{
@@ -111,13 +112,14 @@ function ProductArchive(props) {
               }}
             >
               <Box
-                key={product.id}
+                key={i}
                 className="product"
                 component={ButtonBase}
-                onClick={() => setSelectedProduct(product)}
+                onClick={() => setSelectedProduct(item)}
               >
+                {/* {item.ratings.average} ({item.ratings.rating_count}) */}
                 <div className="image">
-                  <img src={product.images[0].src} alt={product.name} />
+                  <img src={item.images[0]?.src} alt={item.name} />
                 </div>
                 <Typography
                   style={{
@@ -133,7 +135,7 @@ function ProductArchive(props) {
                   }}
                   variant="subtitle1"
                 >
-                  {product.name}
+                  {item.name}
                 </Typography>
                 <Box
                   variant="body2"
@@ -146,7 +148,7 @@ function ProductArchive(props) {
                 >
                   <Rating
                     name="half-rating-read"
-                    defaultValue={parseFloat(product.name.length / 25)}
+                    defaultValue={item.ratings.average}
                     precision={0.5}
                     readOnly
                     size="small"
@@ -165,7 +167,7 @@ function ProductArchive(props) {
                   />
                   &nbsp;&nbsp;
                   <Typography variant="caption" style={{ color: "#6E7191" }}>
-                    {randomNumber + product.id} sold
+                    ({item.ratings.rating_count}) reviews
                   </Typography>
                 </Box>
                 <Typography style={{ marginTop: 6 }}>Starting at:</Typography>
@@ -174,15 +176,17 @@ function ProductArchive(props) {
                   color="primary"
                   style={{ fontWeight: "800", marginTop: -10 }}
                 >
-                  PHP {product.price}
+                  PHP {item.price}
                 </Typography>
-                <MechanicIncluded />
-                {product.sale_price && (
+
+                {item.type === "external" && <MechanicIncluded />}
+
+                {item.sale_price && (
                   <SalePrice>
                     {parseInt(
-                      ((parseFloat(product.regular_price) -
-                        parseFloat(product.sale_price)) /
-                        parseFloat(product.regular_price)) *
+                      ((parseFloat(item.regular_price) -
+                        parseFloat(item.sale_price)) /
+                        parseFloat(item.regular_price)) *
                         100
                     )}
                     % OFF
