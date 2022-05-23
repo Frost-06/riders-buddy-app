@@ -7,6 +7,7 @@ import fetchData from "../../utils/fetchData";
 import { getOR } from "../services/Checkout";
 import moment from "moment";
 import CurrencyFormat from "react-currency-format";
+import * as XLSX from "xlsx/xlsx.mjs";
 
 function MerchantTransactions(props) {
   const [transactions, setTransactions] = useState();
@@ -19,6 +20,7 @@ function MerchantTransactions(props) {
       },
     });
   }, []);
+  const currentDate = moment().format("MM-ddd-YYYY-hh:mm:ss a");
   return (
     <Box p={3}>
       <MaterialTable
@@ -26,6 +28,11 @@ function MerchantTransactions(props) {
         isLoading={typeof transactions !== "object"}
         options={{
           filtering: true,
+          exportButton: {
+            csv: true,
+            pdf: true,
+          },
+          exportFileName: `Transactions ${currentDate}`,
         }}
         onRowClick={(e, row) => props.history.push("/orders/" + row.order_id)}
         editable={{
@@ -42,6 +49,7 @@ function MerchantTransactions(props) {
         title={
           <Box className="center-all" justifyContent="flex-start">
             <ScreenHeader noGoBack title="Transactions" />
+<<<<<<< HEAD
 
             <Button
               variant="contained"
@@ -55,6 +63,8 @@ function MerchantTransactions(props) {
             >
               Export
             </Button>
+=======
+>>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
           </Box>
         }
         columns={[

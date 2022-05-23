@@ -8,9 +8,14 @@ body {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+<<<<<<< HEAD
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   font-family: 'eudoxus sans';
+=======
+  box-sizing: border-box;
+  font-family: "eudoxus sans";
+>>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
 }
 
 img {

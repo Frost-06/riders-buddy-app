@@ -164,6 +164,7 @@ export function SalesByProduct(props) {
     >
       <Box position="absolute" left={0} right={0} component={Paper}>
         {!loading && Object.keys(data).length ? (
+<<<<<<< HEAD
           <Box>
           <CanvasJSChart
             options={{
@@ -185,6 +186,29 @@ export function SalesByProduct(props) {
             }}
           />
           </Box>
+=======
+          <>
+            <CanvasJSChart
+              options={{
+                theme: "light2",
+                animationEnabled: true,
+                exportFileName: "Sales By Product",
+                exportEnabled: true,
+                data: [
+                  {
+                    type: "pie",
+                    showInLegend: true,
+                    legendText: "{label}",
+                    toolTipContent: "{label}: <strong>{y} pcs</strong>",
+                    indexLabel: "{y} pcs",
+                    indexLabelPlacement: "inside",
+                    dataPoints: data,
+                  },
+                ],
+              }}
+            />
+          </>
+>>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
         ) : null}
 
         {!loading && !Object.keys(data).length ? (

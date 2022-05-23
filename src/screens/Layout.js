@@ -141,7 +141,18 @@ export default function Layout(props) {
                       />
                     </ListItem>
                     <ListItem component={ButtonBase}>
+<<<<<<< HEAD
                       <ListItemText><a href="http://localhost:3002/store-manager/products/" target="_blank">Manage Product and Services</a></ListItemText>
+=======
+                      <ListItemText>
+                        <a
+                          href="http://localhost:3002/store-manager/products/"
+                          target="_blank"
+                        >
+                          Manage Product and Services
+                        </a>
+                      </ListItemText>
+>>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
                     </ListItem>
                     <ListItem onClick={attemptLogout} component={ButtonBase}>
                       <ListItemText primary="Logout" />

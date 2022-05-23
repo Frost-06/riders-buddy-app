@@ -22,6 +22,7 @@ function OrderTracking(props) {
   useEffect(() => {
     fetchOrders();
   }, []);
+  const currentDate = moment().format("MM-ddd-YYYY-hh:mm:ss a");
   return (
     <div>
       <MaterialTable
@@ -34,6 +35,11 @@ function OrderTracking(props) {
           initialPage: query.page || 0,
           pageSize: 10,
           pageSizeOptions: [10, 20, 30, 40, 50, 100],
+          exportButton: {
+            csv: true,
+            pdf: true,
+          },
+          exportFileName: `Transactions ${currentDate}`,
         }}
         editable={{
           onRowUpdate: (newData) =>

@@ -363,7 +363,10 @@ export function AddToCart(props) {
       },
     });
   }, [product]);
+<<<<<<< HEAD
   const [tabValue, setTabValue] = useState(0);
+=======
+>>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
 
   return product.id ? (
     <motion.div animate="in" exit="out" initial="initial" variants={slideRight}>
@@ -414,6 +417,7 @@ export function AddToCart(props) {
           >
             Cancel
           </Button> */}
+<<<<<<< HEAD
 
           <Box>
             <Box m={1} style={{ borderBottom: 1, borderColor: "divider" }}>
@@ -515,6 +519,36 @@ export function AddToCart(props) {
               </>
             ))}
           </SwipeableViews>
+=======
+          {!ratings?.rated && (
+            <CartColumn title="Rate">
+              <Rating
+                name="half-rating-read"
+                precision={0.5}
+                onChange={(e) => {
+                  rateRef.current = e.target.value;
+                }}
+              />
+              <TextField
+                label="Comment"
+                onChange={(e) => {
+                  rateMessage.current = e.target.value;
+                }}
+              />
+              <Button onClick={rateProduct}>Submit</Button>
+            </CartColumn>
+          )}
+          {ratings?.ratings?.map((rating) => (
+            <>
+              {rating.rate_number}
+              <br />
+              <b>{rating.user_fname}</b>
+              <br />
+              <b>{rating.rate_message}</b>
+              <br />
+            </>
+          ))}
+>>>>>>> a7ecbcf9b69d192f7b09530a945f85c6ff6bad93
         </Container>
         <Box
           style={{
