@@ -178,7 +178,10 @@ function ProductArchive(props) {
                 >
                   PHP {item.price}
                 </Typography>
-
+                <Typography style={{ color: "#fff", fontSize: "1px" }}>
+                  {item.stock_status}
+                  {item.stock_quantity}
+                </Typography>
                 {item.type === "external" && <MechanicIncluded />}
 
                 {item.sale_price && (

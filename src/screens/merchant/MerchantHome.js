@@ -62,13 +62,17 @@ function MerchantHome(props) {
       </Box>
       <Box className="center-all" justifyContent="space-between">
         <Box className="sales-card" display="block" minWidth={400}>
-          <SalesProviderSuper params={`&from=${params.from}&to=${params.to}`}>
-            <SalesByProductChart />
+          <SalesProviderSuper
+            params={`&from=${params.from}&to=${params.to}&product_type=simple`}
+          >
+            <SalesByProductChart title="Products Sold" />
           </SalesProviderSuper>
         </Box>
         <Box className="sales-card" display="block" minWidth={400}>
-          <SalesProviderSuper params={`&from=${params.from}&to=${params.to}`}>
-            <SalesByProductChart />
+          <SalesProviderSuper
+            params={`&from=${params.from}&to=${params.to}&product_type=external`}
+          >
+            <SalesByProductChart title="Service Rendered" />
           </SalesProviderSuper>
         </Box>
         <Box className="sales-card" display="block" width="100%">

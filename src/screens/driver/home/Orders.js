@@ -257,7 +257,7 @@ function OrderCard(props) {
                     history.push("/orders/" + order_id);
                   }}
                 >
-                  View Order
+                  View Transaction
                 </ListItem>
                 <ListItem
                   component={ButtonBase}

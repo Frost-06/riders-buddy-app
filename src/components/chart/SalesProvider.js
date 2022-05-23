@@ -26,7 +26,7 @@ export function GrossSalesChart(props) {
 export function SalesByProductChart(props) {
   return (
     <SalesProvider type="sales_by_product" {...props}>
-      <SalesByProduct />
+      <SalesByProduct title={props.title} />
     </SalesProvider>
   );
 }

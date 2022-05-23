@@ -419,9 +419,9 @@ function Checkout(props) {
                   </StaticMap>
                 </div>
               </Block>
-              <Block title="Reservation Date" p={0}>
+              <Block title="Service Reservation Date" p={0}>
                 <TextField
-                  type="datetime-local"
+                  type="date"
                   variant="outlined"
                   fullWidth
                   onChange={(e) => {

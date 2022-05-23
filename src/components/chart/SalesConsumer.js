@@ -80,7 +80,7 @@ export function TotalOrders(props) {
 
   return (
     <SalesCardLayout
-      title="Total Orders"
+      title="Total Orders/Booking"
       icon="sell"
       color="blue"
       loading={loading}
@@ -102,13 +102,13 @@ export function TotalOrders(props) {
         <tr>
           <td>
             <Typography>
-              DONE <b>{props.data && props.data["received"]}</b>
+              RECEIVED/DONE <b>{props.data && props.data["received"]}</b>
             </Typography>
             <Typography>
               PENDING <b>{props.data && props.data["pending"]}</b>
             </Typography>
             <Typography>
-              ONGOING <b>{props.data && props.data["receiving"]}</b>
+              CREATED <b>{props.data && props.data["receiving"]}</b>
             </Typography>
           </td>
           <td>
@@ -150,7 +150,7 @@ export function SalesByProduct(props) {
   }, [props.data]);
   return (
     <SalesCardLayout
-      title="Items Sold By Product"
+      title={props.title}
       icon="local_mall"
       color="blue"
       loading={loading}
@@ -218,7 +218,7 @@ export function SalesMonthly(props) {
   }, [props.data]);
   return (
     <SalesCardLayout
-      title="Sales Report by date"
+      title="Monthly sales report by date"
       icon="payments"
       color="blue"
       loading={loading}

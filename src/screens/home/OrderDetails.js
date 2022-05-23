@@ -158,11 +158,11 @@ function OrderDetails(props) {
                       {
                         status: "processing",
                       },
-                      "Accept this order?"
+                      "Are you sure to accept?"
                     )
                   }
                 >
-                  Accept Order
+                  Accept
                 </ListItem>
                 <ListItem
                   component={ButtonBase}
@@ -171,11 +171,11 @@ function OrderDetails(props) {
                       {
                         status: "cancelled",
                       },
-                      "Cancel this order?"
+                      "Are you sure to cancel?"
                     )
                   }
                 >
-                  Cancel Order
+                  Cancel
                 </ListItem>
               </React.Fragment>
             )}
@@ -200,11 +200,11 @@ function OrderDetails(props) {
                             document.querySelector("#amount_paid").value
                           ) || null,
                       },
-                      "Complete this order?"
+                      "Complete this transaction?"
                     )
                   }
                 >
-                  Finish Order
+                  Finish Transactions
                 </ListItem>
               </React.Fragment>
             )}
@@ -354,14 +354,15 @@ function OrderDetails(props) {
                 {order.delivery_info.address.place_name}
               </Typography>
             </CartColumn>
-            {
-              JSON.stringify(order.products).indexOf('\\"type\\":\\"external\\') >= 0 &&
-              <CartColumn title="Reservation Date">
+            {JSON.stringify(order.products).indexOf(
+              '\\"type\\":\\"external\\'
+            ) >= 0 && (
+              <CartColumn title="Service Reservation Date">
                 <Typography style={{ fontWeight: 700 }} color="primary">
-                  {moment(order.reservation_date).format('lll')}
+                  {moment(order.reservation_date).format("MMMM DD, YYYY")}
                 </Typography>
               </CartColumn>
-            }
+            )}
             <CartColumn title="Delivery Fee">
               <Typography style={{ fontWeight: 700 }} color="primary">
                 <CurrencyFormat
@@ -544,7 +545,7 @@ function Products(props) {
             message: (
               <React.Fragment>
                 <List>
-                  <ListItem
+                  {/* <ListItem
                     component={ButtonBase}
                     onClick={() => {
                       setDialogContext({
@@ -558,7 +559,7 @@ function Products(props) {
                     }}
                   >
                     Buy Again
-                  </ListItem>
+                  </ListItem> */}
                   <ListItem
                     component={ButtonBase}
                     onClick={() => {
@@ -569,7 +570,7 @@ function Products(props) {
                       history.push("/merchant/" + p.store.vendor_id);
                     }}
                   >
-                    Visit Shop
+                    Visit Store
                   </ListItem>
                 </List>
               </React.Fragment>

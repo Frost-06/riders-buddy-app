@@ -303,6 +303,8 @@ export function AddToCart(props) {
         regular_price,
         type,
         description,
+        stock_status,
+        stock_quantity,
       } = product;
       const order = { quantity };
       order.product = {
@@ -317,6 +319,8 @@ export function AddToCart(props) {
         merchant,
         type,
         description,
+        stock_status,
+        stock_quantity,
       };
       cartContext.addToCart(order, userContext, () => {
         setSaving(false);
@@ -384,6 +388,38 @@ export function AddToCart(props) {
                 disabled={saving}
               />
             </CartRow>
+            <CartRow title="Stock Status">
+              {product?.stock_status === "instock" ? (
+                <Typography
+                  style={{
+                    color: "green",
+                    fontWeight: "700",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {product?.stock_status}
+                </Typography>
+              ) : (
+                <Typography
+                  style={{
+                    color: "red",
+                    fontWeight: "700",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {product?.stock_status}
+                </Typography>
+              )}
+            </CartRow>
+            <CartRow title="Stock Quantity">
+              {product.stock_quantity === null ? (
+                <Typography style={{ fontWeight: "700" }}>Empty</Typography>
+              ) : (
+                <Typography style={{ fontWeight: "700" }}>
+                  {product?.stock_quantity}
+                </Typography>
+              )}
+            </CartRow>
             <CartRow title="Total">
               <Typography
                 variant="h5"
@@ -400,14 +436,19 @@ export function AddToCart(props) {
             </CartRow>
           </ProductCard>
           <br />
-          <SavingButton
-            saving={saving}
-            className="themed-button"
-            onClick={() => addToCart({ product, quantity })}
-            disabled={saving}
-          >
-            Add To Cart
-          </SavingButton>
+          {product?.stock_status === "instock" ? (
+            <SavingButton
+              saving={saving}
+              className="themed-button"
+              onClick={() => addToCart({ product, quantity })}
+              disabled={saving}
+            >
+              Add To Cart
+            </SavingButton>
+          ) : (
+            ""
+          )}
+
           <br />
           <br />
 

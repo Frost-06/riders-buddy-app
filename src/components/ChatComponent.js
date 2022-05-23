@@ -109,12 +109,6 @@ function ChatComponent(props) {
             >
               Location
             </ListItem>
-            <ListItem
-              component={ButtonBase}
-              onClick={() => setSelectingMap(true)}
-            >
-              Image
-            </ListItem>
           </List>
         </React.Fragment>
       ),
