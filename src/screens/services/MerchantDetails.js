@@ -1,7 +1,7 @@
-import { Avatar, Box, Container } from "@material-ui/core";
+import { Avatar, Box, Button, Container, TextField } from "@material-ui/core";
 import { Rating, Skeleton } from "@material-ui/lab";
 import { motion } from "framer-motion";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Marker, StaticMap } from "react-map-gl";
 import ScreenHeader from "../../components/ScreenHeader";
 import { slideRight } from "../../misc/transitions";
@@ -10,13 +10,39 @@ import fetchData from "../../utils/fetchData";
 import { Block } from "../home";
 import { CartColumn } from "./Cart";
 import InnerHTML from "dangerously-set-html-content";
+import UserContext from "../../context/UserContext";
+import { StarIcon } from "../../misc/CustomIcons";
 
 function MerchantDetails(props) {
+  const { userContext } = useContext(UserContext);
   const { merchant_id } = props.match.params;
+  const [ratings, setRatings] = useState(true);
+  const rateRef = useRef();
+  const rateMessage = useRef();
   const [merchant, setMerchant] = useState(
     props.location.state?.merchant || {}
   );
   const vendor = useMemo(() => merchant?.vendor, [merchant]);
+
+  const rateMerchant = useCallback(()=>{
+    fetchData({
+      send: async () =>
+        await Api.post("/rate/merchant",{
+          body:  {
+            user_id: userContext.user_id,
+            ratee_id: merchant.merch_id,
+            rate_number: rateRef.current,
+            rate_message: rateMessage.current
+          }
+        }),
+      after: (data) => {
+        // if (data) {
+        //   const { merchant } = data;
+        //   setMerchant(merchant);
+        // }
+      },
+    });
+  },[merchant]);
   useEffect(() => {
     if (!Object.keys(props.location.state?.merchant || {}).length) {
       if (merchant_id) {
@@ -26,7 +52,14 @@ function MerchantDetails(props) {
           after: (data) => {
             if (data) {
               const { merchant } = data;
-              setMerchant(merchant);
+              fetchData({
+                send: async () =>
+                  await Api.get("/ratings?user_id="+userContext.user_id+"&merchant_id="+merchant.merch_id),
+                after: (ratings) => {
+                  setMerchant(merchant);
+                  setRatings(ratings);
+                },
+              });
             }
           },
         });
@@ -67,21 +100,39 @@ function MerchantDetails(props) {
               style={{ width: 110, height: 110, marginRight: 14 }}
               variant="square"
             />
-            <Rating
-              name="half-rating-read"
-              defaultValue={4.5}
-              precision={0.5}
-              readOnly
-            />
+            
           </Box>
         </Block>
+        
       </Box>
       <Block
+      
         title="Information"
         style={{
           fontFamily: "Sans-serif",
         }}
       >
+        AVERAGE RATING: {ratings?.average}
+            <Rating
+                    name="half-rating-read"
+                    value={ratings?.average}
+                    precision={0.5}
+                    readOnly
+                    size="small"
+                    emptyIcon={
+                      <StarIcon
+                        fontSize="inherit"
+                        style={{ color: "#D9DBE9" }}
+                      />
+                    }
+                    icon={<StarIcon fontSize="inherit" />}
+                    style={{
+                      display: "inline-flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "#ffb520",
+                    }}
+                  />
         <CartColumn title="Description">
           <span
             dangerouslySetInnerHTML={{
@@ -137,6 +188,29 @@ function MerchantDetails(props) {
             </Box>
           ) : null}
         </CartColumn>
+        {!ratings?.rated && <CartColumn title="Rate">
+            <Rating
+              name="half-rating-read"
+              precision={0.5}
+              onChange={(e)=>{
+                rateRef.current = e.target.value;
+              }}
+            />
+            <TextField
+            label="Comment"
+            onChange={(e)=>{
+              rateMessage.current = e.target.value
+            }}
+            />
+            <Button onClick={rateMerchant}>Submit</Button>
+        </CartColumn>}
+        {ratings?.ratings?.map(rating=>(
+          <>
+          {rating.rate_number}<br/>
+          <b>{rating.user_fname}</b><br/>
+          <b>{rating.rate_message}</b><br/>
+          </>
+        ))}
       </Block>
     </motion.div>
   );

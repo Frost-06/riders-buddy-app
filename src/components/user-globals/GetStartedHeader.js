@@ -385,7 +385,7 @@ export default function SecondHeader(props) {
           position: "sticky",
           top: 0,
           zIndex: 20,
-          margin: isMd ? "" : "0 -251px",
+          margin: isMd ? "" : "",
           display: "flex",
         }}
         initial={{ opacity: 0, y: -100 }}
@@ -412,40 +412,7 @@ export default function SecondHeader(props) {
                   color="primary"
                   sx={{ mr: 2 }}
                   onClick={toggleDrawer("left", true)}
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="3"
-                      y="6"
-                      width="18"
-                      height="2"
-                      rx="1"
-                      fill="#1AA3E9"
-                    />
-                    <rect
-                      x="3"
-                      y="16"
-                      width="18"
-                      height="2"
-                      rx="1"
-                      fill="#1AA3E9"
-                    />
-                    <rect
-                      x="3"
-                      y="11"
-                      width="14"
-                      height="2"
-                      rx="1"
-                      fill="#76C8F2"
-                    />
-                  </svg>
-                </IconButton>
+                ></IconButton>
               )}
               <Box style={{ flexGrow: 1 }}>
                 <Box
@@ -463,51 +430,36 @@ export default function SecondHeader(props) {
                       style={{ marginRight: "40px" }}
                     />
                   </Link>
-                  <Address />
                 </Box>
               </Box>
-              {isMd ? (
-                ""
-              ) : (
-                <>
-                  <Link
-                    onClick={notifToggleDrawer("right", true)}
-                    style={{
-                      marginRight: 40,
-                      width: "-25%",
-                      cursor: "pointer",
-                    }}
+              <Box
+                style={{
+                  display: "inline-flex",
+                  justifyContent: "space-between",
+                  width: "220px",
+                }}
+              >
+                <AnimateOnTap>
+                  <Button
+                    variant="outlined"
+                    className="themed-button"
+                    color="primary"
+                    onClick={() => history.push("/register")}
                   >
-                    <Badge
-                      badgeContent={
-                        bottomNavContext.notifications?.notifications
-                      }
-                      color="error"
-                    >
-                      <img
-                        src="/assets/notifications.svg"
-                        height="35"
-                        alt="notification-icon"
-                      />
-                    </Badge>
-                  </Link>
-                  <Link
-                    style={{
-                      marginRight: 24,
-                      width: "-25%",
-                      cursor: "pointer",
-                    }}
-                    onClick={toggleDrawer("right", true)}
+                    Get Started
+                  </Button>
+                </AnimateOnTap>
+                <AnimateOnTap>
+                  <Button
+                    variant="contained"
+                    className="themed-button inverted"
+                    color="primary"
+                    onClick={() => history.push("/login")}
                   >
-                    <Badge
-                      badgeContent={bottomNavContext.notifications?.cart}
-                      color="error"
-                    >
-                      <img src="/assets/cart.svg" height="35" alt="cart-icon" />
-                    </Badge>
-                  </Link>
-                </>
-              )}
+                    Sign in
+                  </Button>
+                </AnimateOnTap>
+              </Box>
             </Toolbar>
           </Box>
         </AppBar>

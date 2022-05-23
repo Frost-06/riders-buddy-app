@@ -28,9 +28,21 @@ function MerchantTransactions(props) {
           filtering: true,
         }}
         onRowClick={(e, row) => props.history.push("/orders/" + row.order_id)}
+        editable={{
+          onRowUpdate: (newData) =>
+            new Promise(async (resolve, reject) => {
+              delete newData.provider_name;
+              delete newData.consumer_name;
+              await Api.post("/order?token=" + Api.getToken(), {
+                body: newData,
+              });
+              resolve();
+            }),
+        }}
         title={
           <Box className="center-all" justifyContent="flex-start">
             <ScreenHeader noGoBack title="Transactions" />
+
             <Button
               variant="contained"
               color="primary"
@@ -49,29 +61,35 @@ function MerchantTransactions(props) {
           {
             title: "Order Num",
             field: "order_id",
-            render: (row) => <b>{"#" + getOR(row.order_id)}</b>,
+            render: (row) => <b>{"#" + getOR(row.order_id)},</b>,
+            editable: "never",
           },
+
           {
             title: "Date",
             type: "date",
             field: "created_at",
             render: (row) => moment(row.created_at).format("llll"),
+            editable: "never",
           },
           {
             title: "Provider",
             field: "provider_name",
             render: (row) =>
               row.provider_name || <i style={{ opacity: 0.5 }}>Pending</i>,
+            editable: "never",
           },
           {
             title: "Customer",
             field: "consumer_name",
+            editable: "never",
           },
           {
             title: "Note",
             field: "note",
             render: (row) =>
               row.note || <i style={{ opacity: 0.5 }}>Note is empty</i>,
+            editable: "never",
           },
           {
             title: "Total",
@@ -144,6 +162,7 @@ function MerchantTransactions(props) {
                 </React.Fragment>
               );
             },
+            editable: "never",
           },
         ]}
       />

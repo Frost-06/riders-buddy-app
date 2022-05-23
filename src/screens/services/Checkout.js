@@ -1,4 +1,11 @@
-import { Box, Icon, TextField, Typography } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Icon,
+  Input,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { motion } from "framer-motion";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import CurrencyFormat from "react-currency-format";
@@ -32,6 +39,7 @@ function Checkout(props) {
   const [selecting, setSelecting] = useState(true);
   const [saving, setSaving] = useState(false);
   const [note, setNote] = useState(null);
+  const reservationDate = React.useRef();
   const [estTotal, setEstTotal] = useState(null);
   const { service_name } = props.location.state || {};
   const [finalTotal, setFinalTotal] = useState(null);
@@ -51,6 +59,7 @@ function Checkout(props) {
         send: async () =>
           await Api.post("/checkout?token=" + Api.getToken(), {
             body: {
+              reservation_date: reservationDate.current,
               payment_id: 1,
               consumer_user_id: userContext.user_id,
               delivery_info: JSON.stringify(deliveryInfo),
@@ -134,7 +143,7 @@ function Checkout(props) {
           <br />
           <SavingButton
             className="themed-button"
-            startIcon={<Icon>https</Icon>}
+            // startIcon={<Icon>https</Icon>}
             saving={saving}
             disabled={finalTotal === null}
             onClick={() => submitOrder(props.checkoutParams)}
@@ -186,7 +195,16 @@ function Checkout(props) {
             },
           }}
         >
-          <OrdersBlock />
+          <Box>
+            <Block title="Your Orders" p={0}>
+              <OrdersBlock type="simple" />
+            </Block>
+          </Box>
+          <Box>
+            <Block title="Your Bookings" p={0}>
+              <OrdersBlock type="external" />
+            </Block>
+          </Box>
         </Template>
       ),
       "e-pabili": (
@@ -400,6 +418,16 @@ function Checkout(props) {
                     </Marker>
                   </StaticMap>
                 </div>
+              </Block>
+              <Block title="Reservation Date" p={0}>
+                <TextField
+                  type="datetime-local"
+                  variant="outlined"
+                  fullWidth
+                  onChange={(e) => {
+                    reservationDate.current = e.target.value;
+                  }}
+                />
               </Block>
               <Block title="Note" p={0}>
                 <TextField

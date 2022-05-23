@@ -48,7 +48,7 @@ export function ProductCard(props) {
       )}
       <Box p={2}>
         <Box className={"product " + props.variant || "big"}>
-          <img src={product.images[0].src} width="100%" alt={product.name} />
+          <img src={product?.images[0]?.src} width="100%" alt={product.name} />
           <br />
           <Box>
             <Typography
@@ -179,8 +179,7 @@ export function WithDeliveryPrice(props) {
           ]);
         }
 
-        //comment the e-pagkain to get delivery fee
-        // if (service_name === "e-pagkain" || service_name === null) {
+
         if (service_name === "e-pagkain" || service_name === null) {
           let routes = res?.routes;
           if (Object.keys(routes || {}).length) {

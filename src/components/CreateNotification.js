@@ -155,9 +155,9 @@ function CreateNotification(props) {
 
   const notifType = [
     { label: "Announcement" },
-    { label: "Vouchers" },
-    { label: "Banned" },
-    { label: "Updates" },
+    { label: "Delivery-fee" },
+    { label: "Suspension" },
+
   ];
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>

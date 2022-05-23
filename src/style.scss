@@ -13,6 +13,7 @@ body {
 * {
   user-select: none;
   box-sizing: border-box;
+  font-family: 'eudoxus sans';
 }
 img {
   pointer-events: none;
@@ -189,6 +190,7 @@ img {
   outline: none;
   &:first-of-type > div {
     margin-left: 30px;
+    padding: 20px 0px 10px 0px;
   }
 }
 
@@ -429,6 +431,7 @@ img {
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 100%;
+  padding: 20px 0px 10px 0px;
   .product {
     margin: 0 10px;
     margin-bottom: 24px;

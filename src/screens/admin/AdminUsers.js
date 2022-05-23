@@ -3,10 +3,11 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import OrderContext from "../../context/OrderContext";
 import { getOR } from "../../screens/services/Checkout";
 import moment from "moment";
-import { Box, Link } from "@material-ui/core";
+import { Box, Button, Link } from "@material-ui/core";
 import { history } from "../../App";
 import Api from "../../utils/api";
 import fetchData from "../../utils/fetchData";
+import CreateNotification from "../../components/CreateNotification";
 const qs = require("query-string");
 function AdminUsers(props) {
   const [loading, setLoading] = useState(true);
@@ -21,8 +22,19 @@ function AdminUsers(props) {
       },
     });
   }, []);
+  const [open, setOpen] = useState(false);
   return (
     <Box p={3}>
+      <Box width={200} marginTop={2} marginBottom={2}>
+        <Button
+          variant="contained"
+          className="themed-button"
+          onClick={() => setOpen(true)}
+        >
+          Send Notifications
+        </Button>
+        <CreateNotification controls={{ open, setOpen }} />
+      </Box>
       <MaterialTable
         isLoading={loading}
         title="Users"
@@ -38,49 +50,10 @@ function AdminUsers(props) {
             "_blank"
           );
         }}
-        columns={[
-          {
-            title: "ID",
-            field: "user_id",
-            editable: "never",
-          },
-          {
-            title: "First Name",
-            field: "user_fname",
-          },
-          {
-            title: "Last Name",
-            field: "user_lname",
-          },
-          {
-            title: "Email",
-            field: "user_email",
-          },
-          {
-            title: "Status",
-            field: "user_status",
-            lookup: {
-              Verified: "Verified",
-              Unverified: "Unverified",
-              Suspended: "Suspended",
-              Banned: "Banned",
-            },
-          },
-          {
-            title: "User Type",
-            field: "user_type",
-            lookup: {
-              1: "Customer",
-              2: "Driver",
-              3: "Merchant",
-              4: "Admin",
-            },
-          },
-        ]}
         editable={{
           onRowAdd: (newData) =>
             new Promise((resolve, reject) => {
-              newData.user_password = "password";
+              // newData.user_password = "password";
               fetchData({
                 send: async () =>
                   await Api.post(
@@ -158,6 +131,49 @@ function AdminUsers(props) {
               });
             }),
         }}
+        columns={[
+          {
+            title: "ID",
+            field: "user_id",
+          },
+          {
+            title: "First Name",
+            field: "user_fname",
+          },
+          {
+            title: "Last Name",
+            field: "user_lname",
+          },
+          {
+            title: "Email",
+            field: "user_email",
+          },
+          {
+            title: "Password",
+            field: "user_password",
+            editable: "onAdd",
+          },
+          {
+            title: "Status",
+            field: "user_status",
+            lookup: {
+              Verified: "Verified",
+              Unverified: "Unverified",
+              Suspended: "Suspended",
+              Banned: "Banned",
+            },
+          },
+          {
+            title: "User Type",
+            field: "user_type",
+            lookup: {
+              1: "Customer",
+              2: "Driver",
+              3: "Merchant",
+              4: "Admin",
+            },
+          },
+        ]}
       />
     </Box>
   );

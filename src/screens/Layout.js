@@ -97,7 +97,7 @@ export default function Layout(props) {
               [classes.hide]: open,
             })}
           >
-            <MenuIcon />
+            <Icon style={{ color: "#fff" }}>menu_rounded</Icon>
           </IconButton>
           <Box flexGrow={1}>
             <img
@@ -140,6 +140,9 @@ export default function Layout(props) {
                         secondary={userContext.user_email}
                       />
                     </ListItem>
+                    <ListItem component={ButtonBase}>
+                      <ListItemText><a href="http://localhost:3002/store-manager/products/" target="_blank">Manage Product and Services</a></ListItemText>
+                    </ListItem>
                     <ListItem onClick={attemptLogout} component={ButtonBase}>
                       <ListItemText primary="Logout" />
                     </ListItem>
@@ -173,7 +176,7 @@ export default function Layout(props) {
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List style={{ paddingTop: 25 }}>
           {props.drawerRoutes?.map((route, index) => {
             return (
               <ListItem
