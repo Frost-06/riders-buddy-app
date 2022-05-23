@@ -1,7 +1,22 @@
-import { Avatar, Box, Button, Container, TextField } from "@material-ui/core";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { Rating, Skeleton } from "@material-ui/lab";
 import { motion } from "framer-motion";
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Marker, StaticMap } from "react-map-gl";
 import ScreenHeader from "../../components/ScreenHeader";
 import { slideRight } from "../../misc/transitions";
@@ -24,16 +39,16 @@ function MerchantDetails(props) {
   );
   const vendor = useMemo(() => merchant?.vendor, [merchant]);
 
-  const rateMerchant = useCallback(()=>{
+  const rateMerchant = useCallback(() => {
     fetchData({
       send: async () =>
-        await Api.post("/rate/merchant",{
-          body:  {
+        await Api.post("/rate/merchant", {
+          body: {
             user_id: userContext.user_id,
             ratee_id: merchant.merch_id,
             rate_number: rateRef.current,
-            rate_message: rateMessage.current
-          }
+            rate_message: rateMessage.current,
+          },
         }),
       after: (data) => {
         // if (data) {
@@ -42,7 +57,7 @@ function MerchantDetails(props) {
         // }
       },
     });
-  },[merchant]);
+  }, [merchant]);
   useEffect(() => {
     if (!Object.keys(props.location.state?.merchant || {}).length) {
       if (merchant_id) {
@@ -54,7 +69,12 @@ function MerchantDetails(props) {
               const { merchant } = data;
               fetchData({
                 send: async () =>
-                  await Api.get("/ratings?user_id="+userContext.user_id+"&merchant_id="+merchant.merch_id),
+                  await Api.get(
+                    "/ratings?user_id=" +
+                      userContext.user_id +
+                      "&merchant_id=" +
+                      merchant.merch_id
+                  ),
                 after: (ratings) => {
                   setMerchant(merchant);
                   setRatings(ratings);
@@ -91,7 +111,7 @@ function MerchantDetails(props) {
             animation="wave"
           />
         ) : null}
-        <ScreenHeader title={vendor?.vendor_display_name} replace={true} />
+        <ScreenHeader title={vendor?.vendor_shop_name} replace={true} />
         <Block p={0} title="">
           <Box className="center-all" justifyContent="flex-start">
             <Avatar
@@ -100,39 +120,15 @@ function MerchantDetails(props) {
               style={{ width: 110, height: 110, marginRight: 14 }}
               variant="square"
             />
-            
           </Box>
         </Block>
-        
       </Box>
       <Block
-      
         title="Information"
         style={{
           fontFamily: "Sans-serif",
         }}
       >
-        AVERAGE RATING: {ratings?.average}
-            <Rating
-                    name="half-rating-read"
-                    value={ratings?.average}
-                    precision={0.5}
-                    readOnly
-                    size="small"
-                    emptyIcon={
-                      <StarIcon
-                        fontSize="inherit"
-                        style={{ color: "#D9DBE9" }}
-                      />
-                    }
-                    icon={<StarIcon fontSize="inherit" />}
-                    style={{
-                      display: "inline-flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      color: "#ffb520",
-                    }}
-                  />
         <CartColumn title="Description">
           <span
             dangerouslySetInnerHTML={{
@@ -188,29 +184,118 @@ function MerchantDetails(props) {
             </Box>
           ) : null}
         </CartColumn>
-        {!ratings?.rated && <CartColumn title="Rate">
-            <Rating
-              name="half-rating-read"
-              precision={0.5}
-              onChange={(e)=>{
-                rateRef.current = e.target.value;
-              }}
-            />
-            <TextField
-            label="Comment"
-            onChange={(e)=>{
-              rateMessage.current = e.target.value
+        <Box style={{ padding: 24 }}>
+          Average Rating
+          <Typography variant="h2">
+            {!parseInt(ratings?.average) && "No Rating Yet"}
+          </Typography>
+          <Rating
+            name="half-rating-read"
+            defaultValue={ratings?.average}
+            readOnly
+            size="large"
+            emptyIcon={
+              <StarIcon fontSize="inherit" style={{ color: "#D9DBE9" }} />
+            }
+            icon={<StarIcon fontSize="inherit" />}
+            style={{
+              display: "inline-flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            />
-            <Button onClick={rateMerchant}>Submit</Button>
-        </CartColumn>}
-        {ratings?.ratings?.map(rating=>(
-          <>
-          {rating.rate_number}<br/>
-          <b>{rating.user_fname}</b><br/>
-          <b>{rating.rate_message}</b><br/>
-          </>
-        ))}
+          />
+          <Box>
+            {!ratings?.rated && (
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 250,
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography>Add Review</Typography>
+                <Rating
+                  name="size-medium"
+                  onChange={(e) => {
+                    rateRef.current = e.target.value;
+                  }}
+                />
+                <TextField
+                  variant="outlined"
+                  label="Your review"
+                  onChange={(e) => {
+                    rateMessage.current = e.target.value;
+                  }}
+                  multiline
+                  rows={4}
+                  style={{ height: "100px !important" }}
+                />
+                <Button
+                  variant="contained"
+                  className="themed-button inverted"
+                  onClick={rateMerchant}
+                >
+                  Submit
+                </Button>
+              </Box>
+            )}
+          </Box>
+          {ratings?.ratings?.map((rating) => (
+            <Box style={{ marginTop: 16 }}>
+              <Box
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: 16,
+                }}
+              >
+                <Avatar
+                  src={rating.user_fname}
+                  alt={rating.user_fname}
+                  style={{
+                    width: 60,
+                    height: 60,
+                    backgroundColor: "#1aa3e9",
+                  }}
+                />{" "}
+                <Box
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    paddingLeft: 25,
+                  }}
+                >
+                  {" "}
+                  <Typography variant="h5" style={{ fontWeight: "700" }}>
+                    {rating.user_fname} {rating.user_lname}
+                  </Typography>
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={rating.rate_number}
+                    readOnly
+                    size="small"
+                    emptyIcon={
+                      <StarIcon
+                        fontSize="inherit"
+                        style={{ color: "#D9DBE9" }}
+                      />
+                    }
+                    icon={<StarIcon fontSize="inherit" />}
+                    style={{
+                      display: "inline-flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  />
+                  {rating.rate_message}
+                </Box>
+              </Box>
+              <Divider style={{ marginTop: 16, marginBottom: 16 }} />
+            </Box>
+          ))}
+        </Box>
       </Block>
     </motion.div>
   );

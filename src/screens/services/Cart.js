@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Chip,
   CircularProgress,
   Container,
   Divider,
@@ -301,6 +302,7 @@ export function AddToCart(props) {
         name,
         regular_price,
         type,
+        description,
       } = product;
       const order = { quantity };
       order.product = {
@@ -314,6 +316,7 @@ export function AddToCart(props) {
         name,
         merchant,
         type,
+        description,
       };
       cartContext.addToCart(order, userContext, () => {
         setSaving(false);
@@ -407,13 +410,6 @@ export function AddToCart(props) {
           </SavingButton>
           <br />
           <br />
-          {/* <Button
-            className="themed-button inverted"
-            onClick={() => closeOrGoback()}
-            disabled={saving}
-          >
-            Cancel
-          </Button> */}
 
           <Box>
             <Box m={1} style={{ borderBottom: 1, borderColor: "divider" }}>
@@ -436,84 +432,105 @@ export function AddToCart(props) {
             onChangeIndex={(index) => setTabValue(index)}
           >
             <Container>
-              <Block title="Your Orders" p={0}>
-                <WebCart type="simple" />
-              </Block>
+              <Typography>
+                <span
+                  dangerouslySetInnerHTML={{ __html: product?.description }}
+                ></span>
+              </Typography>
             </Container>
-            <Box>
-              {!ratings?.rated && (
-                <CartColumn title="Add Review" style={{ display: "flex" }}>
-                  <Rating
-                    name="size-medium"
-                    onChange={(e) => {
-                      rateRef.current = e.target.value;
-                    }}
-                  />
-                  <TextField
-                    variant="outlined"
-                    label="Comment"
-                    onChange={(e) => {
-                      rateMessage.current = e.target.value;
-                    }}
-                  />
-                  <Button onClick={rateProduct}>Submit</Button>
-                </CartColumn>
-              )}
-            </Box>
-            {ratings?.ratings?.map((rating) => (
-              <>
-                <Box
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    paddingBottom: 16,
-                  }}
-                >
-                  <Avatar
-                    src={rating.user_fname}
-                    alt={rating.user_fname}
-                    style={{
-                      width: 60,
-                      height: 60,
-                      backgroundColor: "#1aa3e9",
-                    }}
-                  />{" "}
+            <Box style={{ padding: 24 }}>
+              <Box>
+                {!ratings?.rated && (
                   <Box
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      alignItems: "flex-start",
-                      paddingLeft: 25,
+                      height: 250,
+                      justifyContent: "space-between",
                     }}
                   >
-                    {" "}
-                    <Typography variant="h5" style={{ fontWeight: "700" }}>
-                      {rating.user_fname} {rating.user_lname}
-                    </Typography>
+                    <Typography>Add Review</Typography>
                     <Rating
-                      name="half-rating-read"
-                      defaultValue={rating.rate_number}
-                      readOnly
-                      size="small"
-                      emptyIcon={
-                        <StarIcon
-                          fontSize="inherit"
-                          style={{ color: "#D9DBE9" }}
-                        />
-                      }
-                      icon={<StarIcon fontSize="inherit" />}
-                      style={{
-                        display: "inline-flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                      name="size-medium"
+                      onChange={(e) => {
+                        rateRef.current = e.target.value;
                       }}
                     />
-                    {rating.rate_message}
+                    <TextField
+                      variant="outlined"
+                      label="Your review"
+                      onChange={(e) => {
+                        rateMessage.current = e.target.value;
+                      }}
+                      multiline
+                      rows={4}
+                      style={{ height: "100px !important" }}
+                    />
+                    <Button
+                      variant="contained"
+                      className="themed-button inverted"
+                      onClick={rateProduct}
+                    >
+                      Submit
+                    </Button>
                   </Box>
+                )}
+              </Box>
+              {ratings?.ratings?.map((rating) => (
+                <Box style={{ marginTop: 16 }}>
+                  <Box
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: 16,
+                    }}
+                  >
+                    <Avatar
+                      src={rating.user_fname}
+                      alt={rating.user_fname}
+                      style={{
+                        width: 60,
+                        height: 60,
+                        backgroundColor: "#1aa3e9",
+                      }}
+                    />{" "}
+                    <Box
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        paddingLeft: 25,
+                      }}
+                    >
+                      {" "}
+                      <Typography variant="h5" style={{ fontWeight: "700" }}>
+                        {rating.user_fname} {rating.user_lname}
+                      </Typography>
+                      <Rating
+                        name="half-rating-read"
+                        defaultValue={rating.rate_number}
+                        readOnly
+                        size="small"
+                        emptyIcon={
+                          <StarIcon
+                            fontSize="inherit"
+                            style={{ color: "#D9DBE9" }}
+                          />
+                        }
+                        icon={<StarIcon fontSize="inherit" />}
+                        style={{
+                          display: "inline-flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      />
+                      {rating.rate_message}
+                    </Box>
+                  </Box>
+                  <Divider style={{ marginTop: 16, marginBottom: 16 }} />
                 </Box>
-                <Divider style={{ marginBottom: 16 }} />
-              </>
-            ))}
+              ))}
+            </Box>
           </SwipeableViews>
         </Container>
         <Box

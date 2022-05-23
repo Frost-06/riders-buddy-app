@@ -179,7 +179,6 @@ export function WithDeliveryPrice(props) {
           ]);
         }
 
-
         if (service_name === "e-pagkain" || service_name === null) {
           let routes = res?.routes;
           if (Object.keys(routes || {}).length) {

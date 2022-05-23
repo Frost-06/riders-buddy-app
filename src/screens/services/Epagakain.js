@@ -166,7 +166,7 @@ function MerchantCard(props) {
             }}
             variant="subtitle1"
           >
-            {props.merchant.vendor_display_name}
+            {props.merchant.vendor_shop_name}
           </Typography>
           <Box
             variant="body2"
